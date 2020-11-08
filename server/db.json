@@ -118,7 +118,7 @@
   "payments": [
     {
       "id": 1,
-      "date": "2019-10-01",
+      "date": "2019-01-01",
       "purchaseId": 1,
       "amount": 10000,
       "note": "comment",
@@ -126,7 +126,7 @@
     },
     {
       "id": 2,
-      "date": "2019-01-11",
+      "date": "2019-10-15",
       "purchaseId": 2,
       "amount": 11000,
       "note": "comment",
@@ -134,7 +134,7 @@
     },
     {
       "id": 3,
-      "date": "2019-01-11",
+      "date": "2020-09-11",
       "purchaseId": 3,
       "amount": 3000,
       "note": "comment",
@@ -392,6 +392,14 @@
       "id": 35,
       "date": "2020-08-22",
       "purchaseId": 35,
+      "amount": 10000,
+      "note": "comment",
+      "methodId": 2
+    },
+    {
+      "id": 36,
+      "date": "2020-08-22",
+      "purchaseId": 1,
       "amount": 10000,
       "note": "comment",
       "methodId": 2
@@ -678,5 +686,5 @@
       "date": "28-09-2019",
       "completed": false
     }
-  ],
+  ]
 }

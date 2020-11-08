@@ -1,23 +1,26 @@
 import styled from "styled-components";
 
 export const StickySearch = styled.div`
-  top: 20px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
   z-index: 10;
-  padding-bottom: 20px;
   position: sticky;
-  opacity: 1;
+  top: -1px;
+  transition: 0.2s;
+  background-color: #e5e5e5;
 `;
 export const DebtorParent = styled.div`
   width: 850px;
   max-width: 100%;
 `;
 export const Debtors = styled.div`
+  overflow-x: hidden;
   width: 100%;
   position: relative;
   &:before {
     border-radius: 10px;
     content: "";
-    display: ${(props) => (props.disabled && "block") || "none"};
+    display: ${(props) => (props.disabled ? "block" : "none")};
     position: absolute;
     width: 100%;
     height: 100%;
@@ -39,6 +42,9 @@ export const DebtorBlock = styled.div`
   border-radius: 10px;
   transition: 0.2s;
   position: relative;
+  &:first-child {
+    margin-top: 20px;
+  }
   &:hover {
     .open-arrow {
       transform: translate(0px);

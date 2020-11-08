@@ -1,8 +1,12 @@
 import React from "react";
 import { TableItem } from "./styled";
 import { useSelector } from "react-redux";
+import dayjs from "dayjs";
 
-function PaymentsTableItem({ payment: { amount, date, id, methodId, note } }) {
+function PaymentsTableItem({
+  payment: { amount, date, methodId, note },
+  length,
+}) {
   const paymentMethods = useSelector((state) =>
     state.paymentMethods.items.find((item) => {
       return item.id === methodId;
@@ -14,9 +18,9 @@ function PaymentsTableItem({ payment: { amount, date, id, methodId, note } }) {
 
   return (
     <TableItem>
-      <div>{id}</div>
+      <div>{length}</div>
       <div>{amount}</div>
-      <div>{date}</div>
+      <div>{dayjs(date).format("D MMMM")}</div>
       <div>{!loadingPaymentMethods && paymentMethods?.name}</div>
       <div>{note}</div>
     </TableItem>

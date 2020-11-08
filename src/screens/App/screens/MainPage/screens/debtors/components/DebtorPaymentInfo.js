@@ -9,13 +9,20 @@ function DebtorPaymentInfo({ debtorId }) {
     })
   );
 
-  const payments = useSelector((state) =>
-    state.payments.items.filter((item) => {
-      return debtorId === item.clientId;
-    })
-  );
+  const payments = useSelector((state) => state.payments.items);
 
-  const paymentTotal = payments.reduce((total, payment) => {
+  const filteredPayments = () => {
+    let items = [];
+    purchases.forEach((purchase) => {
+      const pay = payments.filter(
+        (payment) => payment.purchaseId === purchase.id
+      );
+      items = [...items, ...pay];
+    });
+    return items;
+  };
+
+  const paymentTotal = filteredPayments().reduce((total, payment) => {
     return total + payment?.amount;
   }, 0);
 
@@ -23,20 +30,20 @@ function DebtorPaymentInfo({ debtorId }) {
     return total + purchase?.price;
   }, 0);
 
-  const lastPayment = payments[payments.length - 1];
-
-  const isSameOrBefore = require("dayjs/plugin/isSameOrBefore");
-  dayjs.extend(isSameOrBefore);
-  // const isDelayPayment = !dayjs().isSameOrBefore(nextPayment?.date);
+  const lastPayment = filteredPayments()[filteredPayments().length - 1];
+  const nextPayment = dayjs(lastPayment?.date).add(dayjs.duration(30, "d"));
+  const isDelayPayment = !dayjs().isSameOrBefore(nextPayment);
 
   return (
     <>
       <p>
-        Последня оплата: {dayjs(lastPayment?.date).fromNow()} на сумму
+        Последня оплата: {dayjs(lastPayment?.date).fromNow()} на сумму{" "}
         {lastPayment?.amount}
       </p>
       <p>Осталось к оплате: {purchasesTotal - paymentTotal}</p>
-      {/*<p>Просрочка платежа: {dayjs(nextPayment?.date).fromNow(true)} </p>*/}
+      {isDelayPayment && (
+        <p>Просрочка платежа: {dayjs(nextPayment).fromNow(true)} </p>
+      )}
     </>
   );
 }

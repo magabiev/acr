@@ -3,45 +3,54 @@ import { PaymentHistoryItem } from "./styled";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import dayjs from "dayjs";
+import {
+  openedPurchasesSelector,
+  openedPurchasesTotalSelector,
+} from "../../../../../../../redux/ducks/purchases";
+import {
+  openedPaymentsSelector,
+  openedPaymentsTotalSelector,
+  paymentsSelector,
+} from "../../../../../../../redux/ducks/payments";
 
 function PaymentHistory() {
   const opened = useParams().id;
 
-  const purchases = useSelector((state) =>
-    state.purchases.items.filter((item) => {
-      return opened === item.clientId.toString();
-    })
+  const openedPurchases = useSelector((state) =>
+    openedPurchasesSelector(state, opened)
   );
 
-  const payments = useSelector((state) =>
-    state.payments.items.filter((item) => {
-      return opened === item.clientId.toString();
-    })
+  const payments = useSelector(paymentsSelector);
+
+  const openedPayments = useSelector((state) =>
+    openedPaymentsSelector(state, openedPurchases, payments)
   );
 
-  const paymentTotal = payments.reduce((total, payment) => {
-    return total + payment?.amount;
-  }, 0);
+  const openedPaymentsTotal = useSelector((state) =>
+    openedPaymentsTotalSelector(state, openedPayments)
+  );
 
-  const purchasesTotal = purchases.reduce((total, purchase) => {
-    return total + purchase?.price;
-  }, 0);
+  const purchasesTotal = useSelector((state) =>
+    openedPurchasesTotalSelector(state, openedPurchases)
+  );
 
-  const lastPayment = payments[payments.length - 1];
+  const lastPayment = openedPayments[openedPayments.length - 1];
+  const nextPayment = dayjs(lastPayment?.date).add(dayjs.duration(30, "d"));
 
   return (
     <>
+      {console.log(openedPaymentsTotal)}
       <PaymentHistoryItem>
         Оплатил за последнюю покупку: {lastPayment?.amount}
       </PaymentHistoryItem>
       <PaymentHistoryItem>
-        Осталось к оплате: {purchasesTotal - paymentTotal}
+        Осталось к оплате: {purchasesTotal - openedPaymentsTotal}
       </PaymentHistoryItem>
       <PaymentHistoryItem>
-        {/*Следующая оплата: {dayjs(nextPayment?.date).fromNow()}*/}
+        Следующая оплата: {dayjs(nextPayment).fromNow()}
       </PaymentHistoryItem>
       <PaymentHistoryItem>
-        Оплатил за все время: {paymentTotal}
+        Оплатил за все время: {openedPaymentsTotal}
       </PaymentHistoryItem>
     </>
   );

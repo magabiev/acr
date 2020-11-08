@@ -1,34 +1,25 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   ButtonHeader,
-  Dropdown,
-  DropdownItem,
   HeaderBlock,
-  HeaderOtherOption,
   HeaderParentBlock,
-  Logo,
+  LogoBlock,
 } from "./styled";
+import Export from "./Export";
+import Logout from "./Logout";
 
 function Header() {
-  const [vis, setVis] = useState(false);
   return (
     <HeaderParentBlock>
       <HeaderBlock>
-        <Logo>
+        <LogoBlock>
           <span>M</span>agabiev
-        </Logo>
+        </LogoBlock>
         <ButtonHeader>Добавить клиента</ButtonHeader>
       </HeaderBlock>
       <HeaderBlock>
-        <HeaderOtherOption onClick={() => setVis(!vis)}>
-          Экспорт
-          <i className="material-icons">keyboard_arrow_down</i>
-        </HeaderOtherOption>
-        <Dropdown show={vis}>
-          <DropdownItem>Экспорт в PDF</DropdownItem>
-          <DropdownItem>Экспорт в Excel</DropdownItem>
-        </Dropdown>
-        <HeaderOtherOption>Выход</HeaderOtherOption>
+        <Export />
+        <Logout />
       </HeaderBlock>
     </HeaderParentBlock>
   );

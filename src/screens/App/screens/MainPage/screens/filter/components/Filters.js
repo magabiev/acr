@@ -17,33 +17,37 @@ function Filters() {
     });
   };
 
-  // 1 - сумма всех покупок (10000)
-  // 2 - сумма всех оплат (4000)
-
-  const customerId = useMemo(() => {
+  const debtorsId = useMemo(() => {
     return [...new Set(purchases.map((item) => item.clientId))];
   }, [purchases]);
 
-  const debtorPaymentsInfo = customerId.map((debtor) => {
+  const debtorPaymentsInfo = debtorsId.map((debtor) => {
     const purchasesTotalAmount = filterArrays(purchases, debtor).reduce(
       (total, purchase) => {
         return total + purchase?.price;
       },
       0
     );
-    const paymentsTotalAmount = filterArrays(payments, debtor).reduce(
-      (total, payment) => {
-        return total + payment?.amount;
-      },
-      0
-    );
 
-    const filteredPayments = filterArrays(payments, debtor.id);
+    const paymentsFiltered = () => {
+      let items = [];
+      filterArrays(purchases, debtor).forEach((purchase) => {
+        const pay = payments.filter(
+          (payment) => payment.purchaseId === purchase.id
+        );
+        items = [...items, ...pay];
+      });
+      return items;
+    };
+
+    const paymentsTotalAmount = paymentsFiltered().reduce((total, payment) => {
+      return total + payment?.amount;
+    }, 0);
 
     return {
       clientId: debtor,
       paymentBalances: purchasesTotalAmount - paymentsTotalAmount,
-      lastPaymentDate: filteredPayments[filteredPayments.length - 1]?.date,
+      lastPaymentDate: paymentsFiltered()[paymentsFiltered().length - 1]?.date,
     };
   });
 

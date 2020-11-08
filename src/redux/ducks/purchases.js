@@ -1,13 +1,17 @@
 import { get } from "../../api/api";
+import { createSelector } from "reselect";
 
+/** Types **/
 const purchases_load_started = "purchases/load/started";
 const purchases_load_succeed = "purchases/load/succeed";
 
+/** State **/
 const initialState = {
   items: [],
   loading: false,
 };
 
+/** Reducer **/
 export default function purchases(state = initialState, action) {
   switch (action.type) {
     case purchases_load_started:
@@ -28,6 +32,29 @@ export default function purchases(state = initialState, action) {
   }
 }
 
+/** Selectors **/
+const openedPurchases = (state, opened) =>
+  state.purchases.items.filter((item) => {
+    return opened === item.clientId.toString();
+  });
+
+const openedPurchasesTotal = (_, openedPurchase) => {
+  return openedPurchase.reduce((total, purchase) => {
+    return total + purchase?.price;
+  }, 0);
+};
+
+export const openedPurchasesTotalSelector = createSelector(
+  [openedPurchasesTotal],
+  (items) => items
+);
+
+export const openedPurchasesSelector = createSelector(
+  [openedPurchases],
+  (items) => items
+);
+
+/** Actions **/
 export function loadPurchases() {
   return (dispatch) => {
     dispatch({ type: purchases_load_started });

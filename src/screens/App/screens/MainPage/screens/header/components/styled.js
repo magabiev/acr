@@ -11,7 +11,7 @@ export const HeaderBlock = styled.div`
   padding: 21px 0;
   position: relative;
 `;
-export const Logo = styled.div`
+export const LogoBlock = styled.div`
   font-size: 36px;
   font-weight: bold;
   margin-right: 25px;

@@ -1,34 +1,63 @@
-import React from "react";
-import { DebtClose, DebtHeaderItem } from "./styled";
+import React, { useCallback, useEffect, useRef } from "react";
+import {
+  DebtClose,
+  DebtHeaderItem,
+  DebtHeaderParent,
+  DebtHeaderContent,
+} from "./styled";
 import { useHistory, useParams } from "react-router-dom";
 import DebtName from "./DebtName";
 import DebtContactInfo from "./DebtContactInfo";
 import { useSelector } from "react-redux";
+import { openedDebtor } from "../../../../../../../redux/ducks/debtors";
 
 function DebtHeader() {
+  const header = useRef();
+  const headerName = useRef();
   const history = useHistory();
   const opened = useParams().id;
-  const debtor = useSelector((state) =>
-    state.debtors.items.find((item) => opened === item.id.toString())
-  );
+
+  const debtor = useSelector((state) => openedDebtor(state, opened));
   const loading = useSelector((state) => state.debtors.loading);
 
   const handleClick = () => {
     history.push("");
   };
 
+  const scroll = useCallback(() => {
+    window.onscroll = () => {
+      if (window.scrollY >= 120) {
+        header.current.style.boxShadow = "0px 2px 8px rgba(0, 0, 0, 0.1)";
+        header.current.style.paddingTop = "20px";
+        headerName.current.style.marginTop = "10px";
+      } else {
+        header.current.style.boxShadow = "";
+        header.current.style.paddingTop = "";
+        headerName.current.style.marginTop = "30px";
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    scroll();
+  });
+
   return (
-    <DebtHeaderItem>
-      <div>
-        <DebtName fullName={!loading && debtor} />
-        <DebtClose onClick={handleClick}>
-          <i className="material-icons">clear</i>
-        </DebtClose>
-      </div>
-      <div>
-        <DebtContactInfo contactInfo={!loading && debtor} />
-      </div>
-    </DebtHeaderItem>
+    <DebtHeaderParent>
+      <DebtHeaderContent ref={header}>
+        <DebtHeaderItem>
+          <div>
+            <DebtName fullName={!loading && debtor} />
+            <DebtClose onClick={handleClick}>
+              <i className="material-icons">clear</i>
+            </DebtClose>
+          </div>
+          <div ref={headerName}>
+            <DebtContactInfo contactInfo={!loading && debtor} />
+          </div>
+        </DebtHeaderItem>
+      </DebtHeaderContent>
+    </DebtHeaderParent>
   );
 }
 

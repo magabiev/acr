@@ -13,10 +13,6 @@ function BalanceOwedFilter({ totalBalances }) {
   const [fromValue, setFromValue] = useState("");
   const [toValue, setToValue] = useState("");
 
-  // /clients
-  // /clients/?from=1000&to=2000&hide=1
-  // /clients/?
-
   const filteredBalance = useCallback(() => {
     const balanceList = totalBalances.filter((item) => {
       if (fromValue && toValue) {

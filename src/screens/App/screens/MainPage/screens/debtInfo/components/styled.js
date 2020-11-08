@@ -8,14 +8,56 @@ const slide_left = keyframes`
      transform: translateY(0);
   }
 `;
-export const DebtInfoParent = styled.div`
+export const DebtInfoMain = styled.div`
   animation: ${slide_left} 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
   width: 850px;
+  max-width: 100%;
+  border-radius: 10px;
+  background-color: white;
+`;
+export const DebtInfoParent = styled.div`
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+`;
+export const DebtHeaderParent = styled.div`
+  width: 850px;
+  max-width: 100%;
+  position: sticky;
+  overflow-x: hidden;
+  top: -1px;
+  transition: 0.2s;
+  z-index: 10;
+  padding-bottom: 10px;
+`;
+export const DebtHeaderContent = styled.div`
+  background-color: #e5e5e5;
+  width: 100%;
+  transition: 0.2s;
+`;
+export const DebtHeaderItem = styled.div`
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px 10px 0 0;
+  > div {
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: 0.2s;
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+`;
+export const DebtInfoContent = styled.div`
+  overflow-x: hidden;
+  width: 100%;
   padding-bottom: 20px;
   max-width: 100%;
   background-color: #ffffff;
   box-shadow: 0 0 16px rgba(0, 0, 0, 0.07);
-  border-radius: 10px;
+  border-radius: 0 0 10px 10px;
   transform-origin: top;
   position: sticky;
 `;
@@ -124,21 +166,6 @@ export const DateOfAdd = styled.div`
     border: 1px solid white;
   }
 `;
-
-export const DebtHeaderItem = styled.div`
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 10px 10px 0 0;
-  margin-bottom: 10px;
-  position: sticky;
-  z-index: 10;
-  top: 20px;
-  > div {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-`;
 export const DebtClose = styled.div`
   cursor: pointer;
   transition: 0.2s;
@@ -150,7 +177,6 @@ export const DebtClose = styled.div`
 export const DebtContactInfoItem = styled.div`
   font-size: 18px;
   color: #adadad;
-  margin-top: 30px;
   display: flex;
   align-items: center;
   > i {

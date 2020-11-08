@@ -10,9 +10,11 @@ function PurchasesTable() {
   const opened = useParams().id;
   const loadingPurchases = useSelector((state) => state.purchases.loading);
   const purchases = useSelector((state) =>
-    state.purchases.items.filter((item) => {
-      return opened === item.clientId.toString();
-    })
+    state.purchases.items
+      .filter((item) => {
+        return opened === item.clientId.toString();
+      })
+      .reverse()
   );
 
   return (
@@ -33,8 +35,14 @@ function PurchasesTable() {
           <div>Комментарий</div>
         </TableItem>
         {!loadingPurchases &&
-          purchases.map((item) => {
-            return <PurchasesTableItem key={item.id} purchase={item} />;
+          purchases.map((item, index) => {
+            return (
+              <PurchasesTableItem
+                key={item.id}
+                purchase={item}
+                length={index + 1}
+              />
+            );
           })}
       </Table>
     </>

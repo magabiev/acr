@@ -1,32 +1,38 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Table, TableHeader, TableItem } from "./styled";
 import { LinkButton } from "../../../../../components/styled";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 // noinspection ES6CheckImport
 import { useParams } from "react-router-dom";
 import PaymentsTableItem from "./PaymentsTableItem";
-import { loadPaymentMethods } from "../../../../../../../redux/ducks/paymentMethods";
 
 function PaymentsTable() {
   const [openTable, setOpenTable] = useState(false);
-  const dispatch = useDispatch();
+
   const opened = useParams().id;
   const loadingPayments = useSelector((state) => state.payments.loading);
-  const payments = useSelector((state) =>
-    state.payments.items.filter((item) => {
+  const purchases = useSelector((state) =>
+    state.purchases.items.filter((item) => {
       return opened === item?.clientId.toString();
     })
   );
-
-  useEffect(() => {
-    dispatch(loadPaymentMethods());
-  }, [dispatch]);
+  const payments = useSelector((state) => state.payments.items);
+  const filteredPayments = () => {
+    let items = [];
+    purchases.forEach((purchase) => {
+      const pay = payments.filter(
+        (payment) => payment.purchaseId === purchase.id
+      );
+      items = [...items, ...pay];
+    });
+    return items;
+  };
 
   return (
     <>
       <TableHeader open={openTable}>
         <p onClick={() => setOpenTable(!openTable)}>
-          Все платежи ({!loadingPayments && payments.length})
+          Все платежи ({!loadingPayments && filteredPayments().length})
           <i className="material-icons">navigate_next</i>
         </p>
         <LinkButton>+ добавить платеж</LinkButton>
@@ -40,9 +46,17 @@ function PaymentsTable() {
           <div>Комментарий</div>
         </TableItem>
         {!loadingPayments &&
-          payments.map((item) => {
-            return <PaymentsTableItem key={item.id} payment={item} />;
-          })}
+          filteredPayments()
+            .reverse()
+            .map((item, index) => {
+              return (
+                <PaymentsTableItem
+                  key={item.id}
+                  payment={item}
+                  length={index + 1}
+                />
+              );
+            })}
       </Table>
     </>
   );
