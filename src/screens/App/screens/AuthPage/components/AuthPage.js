@@ -1,42 +1,13 @@
-import React, { useState } from "react";
-import {
-  AuthBlock,
-  AuthBlockParent,
-  AuthContainer,
-  AuthHeader,
-  AuthOtherBlock,
-  Login,
-  Password,
-  PasswordBlock,
-  ShowPassword,
-  WrongData,
-} from "./styled";
-import { Button, LinkButton, Spinner } from "../../../components/styled";
+import React from "react";
+import { AuthBlockParent, AuthContainer, AuthOtherBlock } from "./styled";
+import { LinkButton } from "../../../components/styled";
+import Authorization from "../screens/Authorization";
 
 function AuthPage() {
-  const [focusPassword, setFocusPassword] = useState(false);
   return (
     <AuthContainer>
       <AuthBlockParent>
-        <AuthBlock>
-          <AuthHeader>Авторизация</AuthHeader>
-          <WrongData>Данные введены неверно. Попробуйте еще раз</WrongData>
-          <Login placeholder="Введите логин" />
-          <PasswordBlock focusBorder={focusPassword}>
-            <Password
-              placeholder="Введите пароль"
-              onFocus={() => setFocusPassword(true)}
-              onBlur={() => setFocusPassword(false)}
-            />
-            <ShowPassword>
-              <i className="material-icons">visibility_off</i>
-            </ShowPassword>
-          </PasswordBlock>
-          <Button margin="20px auto">
-            <Spinner />
-            Авторизация
-          </Button>
-        </AuthBlock>
+        <Authorization />
         <AuthOtherBlock>
           <LinkButton>Регистрация</LinkButton>
           <LinkButton>Забыли пароль?</LinkButton>

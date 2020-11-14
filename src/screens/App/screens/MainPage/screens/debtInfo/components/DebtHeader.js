@@ -9,7 +9,7 @@ import { useHistory, useParams } from "react-router-dom";
 import DebtName from "./DebtName";
 import DebtContactInfo from "./DebtContactInfo";
 import { useSelector } from "react-redux";
-import { openedDebtor } from "../../../../../../../redux/ducks/debtors";
+import { currentDebtorSelector } from "../../../../../../../redux/ducks/debtors";
 
 function DebtHeader() {
   const header = useRef();
@@ -17,7 +17,11 @@ function DebtHeader() {
   const history = useHistory();
   const opened = useParams().id;
 
-  const debtor = useSelector((state) => openedDebtor(state, opened));
+  const currentDebtor = useSelector((state) => {
+    const getSelector = currentDebtorSelector();
+    return getSelector(state, opened);
+  });
+
   const loading = useSelector((state) => state.debtors.loading);
 
   const handleClick = () => {
@@ -47,13 +51,13 @@ function DebtHeader() {
       <DebtHeaderContent ref={header}>
         <DebtHeaderItem>
           <div>
-            <DebtName fullName={!loading && debtor} />
+            <DebtName fullName={!loading && currentDebtor} />
             <DebtClose onClick={handleClick}>
               <i className="material-icons">clear</i>
             </DebtClose>
           </div>
           <div ref={headerName}>
-            <DebtContactInfo contactInfo={!loading && debtor} />
+            <DebtContactInfo contactInfo={!loading && currentDebtor} />
           </div>
         </DebtHeaderItem>
       </DebtHeaderContent>

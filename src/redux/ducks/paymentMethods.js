@@ -1,13 +1,17 @@
 import { get } from "../../api/api";
+import { createSelector } from "reselect";
 
+/** Types **/
 const paymentMethods_load_started = "paymentMethods/load/started";
 const paymentMethods_load_succeed = "paymentMethods/load/succeed";
 
+/** State **/
 const initialState = {
   items: [],
   loading: false,
 };
 
+/** Reducer **/
 export default function paymentMethods(state = initialState, action) {
   switch (action.type) {
     case paymentMethods_load_started:
@@ -27,7 +31,16 @@ export default function paymentMethods(state = initialState, action) {
       };
   }
 }
+/** Selectors **/
+const currentPaymentMethod = (state, methodId) =>
+  state.paymentMethods.items.find((item) => item.id === methodId);
 
+export const currentPaymentMethodSelector = createSelector(
+  [currentPaymentMethod],
+  (items) => items
+);
+
+/** Actions **/
 export function loadPaymentMethods() {
   return (dispatch) => {
     dispatch({ type: paymentMethods_load_started });

@@ -33,26 +33,29 @@ export default function purchases(state = initialState, action) {
 }
 
 /** Selectors **/
-const openedPurchases = (state, opened) =>
+export const openedPurchases = (state, opened) =>
   state.purchases.items.filter((item) => {
     return opened === item.clientId.toString();
   });
 
-const openedPurchasesTotal = (_, openedPurchase) => {
+// const res = createSelector([openedPurchases], (items) => {
+//   console.log('я выполнился')
+//   return items.reduce((total, purchase) => {
+//     return total + purchase?.price;
+//   }, 0);
+// });
+
+const openedPurchasesTotal = (state, openedPurchase) => {
   return openedPurchase.reduce((total, purchase) => {
     return total + purchase?.price;
   }, 0);
 };
 
-export const openedPurchasesTotalSelector = createSelector(
-  [openedPurchasesTotal],
-  (items) => items
-);
+export const openedPurchasesTotalSelector = () =>
+  createSelector([openedPurchasesTotal], (items) => items);
 
-export const openedPurchasesSelector = createSelector(
-  [openedPurchases],
-  (items) => items
-);
+export const openedPurchasesSelector = () =>
+  createSelector([openedPurchases], (items) => items);
 
 /** Actions **/
 export function loadPurchases() {

@@ -29,6 +29,20 @@ export default function payments(state = initialState, action) {
       };
   }
 }
+
+/** Actions **/
+export function loadPayments() {
+  return (dispatch) => {
+    dispatch({ type: payments_load_started });
+    get("payments").then((json) =>
+      dispatch({
+        type: payments_load_succeed,
+        payload: json,
+      })
+    );
+  };
+}
+
 /** Selectors **/
 export const paymentsSelector = (state) => state.payments.items;
 
@@ -43,31 +57,14 @@ const openedPayments = (state, purchases, payments) => {
   return items;
 };
 
-export const openedPaymentsSelector = createSelector(
-  [openedPayments],
-  (items) => items
-);
+export const openedPaymentsSelector = () =>
+  createSelector([openedPayments], (items) => items);
 
-const openedPaymentsTotal = (_, openedPayment) => {
+const openedPaymentsTotal = (state, openedPayment) => {
   return openedPayment.reduce((total, payment) => {
     return total + payment?.amount;
   }, 0);
 };
 
-export const openedPaymentsTotalSelector = createSelector(
-  [openedPaymentsTotal],
-  (items) => items
-);
-
-/** Actions **/
-export function loadPayments() {
-  return (dispatch) => {
-    dispatch({ type: payments_load_started });
-    get("payments").then((json) =>
-      dispatch({
-        type: payments_load_succeed,
-        payload: json,
-      })
-    );
-  };
-}
+export const openedPaymentsTotalSelector = () =>
+  createSelector([openedPaymentsTotal], (items) => items);

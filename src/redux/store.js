@@ -4,7 +4,7 @@ import thunk from "redux-thunk";
 import debtors from "./ducks/debtors";
 import payments from "./ducks/payments";
 import purchases from "./ducks/purchases";
-import search from "./ducks/search";
+import searchDebtors from "./ducks/search";
 import paymentMethods from "./ducks/paymentMethods";
 /**
  * Настройка логгера
@@ -14,18 +14,15 @@ const logger = createLogger({
   diff: true,
 });
 
-//todo логгер должен работать только в режиме разработки
-
 const reducers = combineReducers({
   debtors,
   payments,
   purchases,
-  search,
+  searchDebtors,
   paymentMethods,
 });
 
-// if(process.env.NODE_ENV === "development") {
-//
-// }
-
-export const store = createStore(reducers, applyMiddleware(thunk, logger));
+export const store = createStore(
+  reducers,
+  applyMiddleware(thunk, process.env.NODE_ENV !== "production" && logger)
+);

@@ -94,7 +94,7 @@ export const BlackBlock = styled.div`
   left: 0;
   background: rgba(0, 0, 0, 0.2);
   z-index: 100;
-  display: ${(props) => (props.show && "flex") || "none"};
+  display: ${(props) => (props.show ? "flex" : "none")};
   > div {
     z-index: 101;
   }

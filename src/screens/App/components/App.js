@@ -4,8 +4,7 @@ import MainPage from "../screens/MainPage";
 // noinspection ES6CheckImport
 import { BrowserRouter, Route } from "react-router-dom";
 import dayjs from "dayjs";
-import { useSelector } from "react-redux";
-import { tutu } from "../../../redux/ducks/debtors";
+import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 
 function App() {
   /**
@@ -16,8 +15,10 @@ function App() {
   /**
    * Настройка плагинов dayjs
    * @type {dayjs.PluginFunc}
+   *
+   * todo correct it
    */
-  const isSameOrBefore = require("dayjs/plugin/isSameOrBefore");
+  //const isSameOrBefore = require("dayjs/plugin/isSameOrBefore");
   const duration = require("dayjs/plugin/duration");
   const relativeTime = require("dayjs/plugin/relativeTime");
   const locale_ru = require("dayjs/locale/ru");
@@ -25,6 +26,7 @@ function App() {
   dayjs.extend(duration);
   dayjs.extend(isSameOrBefore);
   dayjs.locale("ru");
+
   return (
     <BrowserRouter>
       <Route path="/:id?">

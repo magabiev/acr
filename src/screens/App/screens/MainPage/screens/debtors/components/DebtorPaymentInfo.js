@@ -1,36 +1,40 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import dayjs from "dayjs";
+import {
+  openedPurchasesSelector,
+  openedPurchasesTotalSelector,
+} from "../../../../../../../redux/ducks/purchases";
+import {
+  openedPaymentsSelector,
+  openedPaymentsTotalSelector,
+  paymentsSelector,
+} from "../../../../../../../redux/ducks/payments";
 
 function DebtorPaymentInfo({ debtorId }) {
-  const purchases = useSelector((state) =>
-    state.purchases.items.filter((item) => {
-      return debtorId === item.clientId;
-    })
-  );
+  const currentPurchases = useSelector((state) => {
+    const getSelector = openedPurchasesSelector();
+    return getSelector(state, debtorId.toString());
+  });
 
-  const payments = useSelector((state) => state.payments.items);
+  const payments = useSelector(paymentsSelector);
 
-  const filteredPayments = () => {
-    let items = [];
-    purchases.forEach((purchase) => {
-      const pay = payments.filter(
-        (payment) => payment.purchaseId === purchase.id
-      );
-      items = [...items, ...pay];
-    });
-    return items;
-  };
+  const currentPayments = useSelector((state) => {
+    const getSelector = openedPaymentsSelector();
+    return getSelector(state, currentPurchases, payments);
+  });
 
-  const paymentTotal = filteredPayments().reduce((total, payment) => {
-    return total + payment?.amount;
-  }, 0);
+  const currentPaymentsTotal = useSelector((state) => {
+    const getSelector = openedPaymentsTotalSelector();
+    return getSelector(state, currentPayments);
+  });
 
-  const purchasesTotal = purchases.reduce((total, purchase) => {
-    return total + purchase?.price;
-  }, 0);
+  const currentPurchasesTotal = useSelector((state) => {
+    const getSelector = openedPurchasesTotalSelector();
+    return getSelector(state, currentPurchases);
+  });
 
-  const lastPayment = filteredPayments()[filteredPayments().length - 1];
+  const lastPayment = currentPayments[currentPayments.length - 1];
   const nextPayment = dayjs(lastPayment?.date).add(dayjs.duration(30, "d"));
   const isDelayPayment = !dayjs().isSameOrBefore(nextPayment);
 
@@ -40,7 +44,7 @@ function DebtorPaymentInfo({ debtorId }) {
         Последня оплата: {dayjs(lastPayment?.date).fromNow()} на сумму{" "}
         {lastPayment?.amount}
       </p>
-      <p>Осталось к оплате: {purchasesTotal - paymentTotal}</p>
+      <p>Осталось к оплате: {currentPurchasesTotal - currentPaymentsTotal}</p>
       {isDelayPayment && (
         <p>Просрочка платежа: {dayjs(nextPayment).fromNow(true)} </p>
       )}

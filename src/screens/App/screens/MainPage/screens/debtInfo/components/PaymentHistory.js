@@ -16,35 +16,38 @@ import {
 function PaymentHistory() {
   const opened = useParams().id;
 
-  const openedPurchases = useSelector((state) =>
-    openedPurchasesSelector(state, opened)
-  );
+  const openedPurchases = useSelector((state) => {
+    const getSelector = openedPurchasesSelector();
+    return getSelector(state, opened);
+  });
 
   const payments = useSelector(paymentsSelector);
 
-  const openedPayments = useSelector((state) =>
-    openedPaymentsSelector(state, openedPurchases, payments)
-  );
+  const openedPayments = useSelector((state) => {
+    const getSelector = openedPaymentsSelector();
+    return getSelector(state, openedPurchases, payments);
+  });
 
-  const openedPaymentsTotal = useSelector((state) =>
-    openedPaymentsTotalSelector(state, openedPayments)
-  );
+  const openedPaymentsTotal = useSelector((state) => {
+    const getSelector = openedPaymentsTotalSelector();
+    return getSelector(state, openedPayments);
+  });
 
-  const purchasesTotal = useSelector((state) =>
-    openedPurchasesTotalSelector(state, openedPurchases)
-  );
+  const openedPurchasesTotal = useSelector((state) => {
+    const getSelector = openedPurchasesTotalSelector();
+    return getSelector(state, openedPurchases);
+  });
 
   const lastPayment = openedPayments[openedPayments.length - 1];
   const nextPayment = dayjs(lastPayment?.date).add(dayjs.duration(30, "d"));
 
   return (
     <>
-      {console.log(openedPaymentsTotal)}
       <PaymentHistoryItem>
         Оплатил за последнюю покупку: {lastPayment?.amount}
       </PaymentHistoryItem>
       <PaymentHistoryItem>
-        Осталось к оплате: {purchasesTotal - openedPaymentsTotal}
+        Осталось к оплате: {openedPurchasesTotal - openedPaymentsTotal}
       </PaymentHistoryItem>
       <PaymentHistoryItem>
         Следующая оплата: {dayjs(nextPayment).fromNow()}

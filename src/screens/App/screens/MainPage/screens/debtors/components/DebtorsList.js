@@ -3,20 +3,16 @@ import { DebtorParent, Debtors, StickySearch } from "./styled";
 import Search from "../../search";
 import { useSelector } from "react-redux";
 import Debtor from "./Debtor";
+import { valueSelector } from "../../../../../../../redux/ducks/search";
+import { filteredDebtorsSelector } from "../../../../../../../redux/ducks/debtors";
 
 function DebtorsList() {
   const searchBlock = useRef(null);
+  const value = useSelector(valueSelector);
 
-  const debtors = useSelector((state) => {
-    const { value } = state.search;
-    return state.debtors.items.filter((item) => {
-      return (
-        item.firstName.toUpperCase().indexOf(value.toUpperCase()) !== -1 ||
-        item.lastName.toUpperCase().indexOf(value.toUpperCase()) !== -1 ||
-        item.surName.toUpperCase().indexOf(value.toUpperCase()) !== -1
-      );
-    });
-  });
+  const filterDebtors = useSelector((state) =>
+    filteredDebtorsSelector(state, value)
+  );
 
   const loadingDebtors = useSelector((state) => state.debtors.loading);
 
@@ -41,7 +37,7 @@ function DebtorsList() {
       </StickySearch>
       <Debtors>
         {!loadingDebtors &&
-          debtors.map((item) => {
+          filterDebtors.map((item) => {
             return <Debtor key={item.id} debtor={item} />;
           })}
       </Debtors>
