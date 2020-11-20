@@ -1,6 +1,6 @@
 import React from "react";
 import { AuthBlockParent, AuthContainer, AuthOtherBlock } from "./styled";
-import { LinkButton } from "../../../components/styled";
+import { LinkButton } from "../../../../shared/components/styled";
 import Authorization from "../screens/Authorization";
 
 function AuthPage() {

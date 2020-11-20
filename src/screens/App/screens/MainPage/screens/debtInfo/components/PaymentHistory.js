@@ -1,44 +1,41 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { PaymentHistoryItem } from "./styled";
-import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import dayjs from "dayjs";
 import {
-  openedPurchasesSelector,
-  openedPurchasesTotalSelector,
+  currentPurchasesSelector,
+  currentPurchasesTotalSelector,
 } from "../../../../../../../redux/ducks/purchases";
 import {
-  openedPaymentsSelector,
-  openedPaymentsTotalSelector,
-  paymentsSelector,
+  currentPaymentsSelector,
+  currentPaymentsTotalSelector,
 } from "../../../../../../../redux/ducks/payments";
+import { useParams } from "react-router-dom";
 
 function PaymentHistory() {
   const opened = useParams().id;
+  const selectCurrentPurchases = useMemo(currentPurchasesSelector, []);
+  const currentPurchases = useSelector((state) =>
+    selectCurrentPurchases(state, opened)
+  );
+  const selectCurrentPayments = useMemo(currentPaymentsSelector, []);
+  const currentPayments = useSelector((state) =>
+    selectCurrentPayments(state, currentPurchases)
+  );
+  const selectCurrentPaymentsTotal = useMemo(currentPaymentsTotalSelector, []);
+  const currentPaymentsTotal = useSelector((state) =>
+    selectCurrentPaymentsTotal(state, currentPayments)
+  );
 
-  const openedPurchases = useSelector((state) => {
-    const getSelector = openedPurchasesSelector();
-    return getSelector(state, opened);
-  });
+  const selectCurrentPurchasesTotal = useMemo(
+    currentPurchasesTotalSelector,
+    []
+  );
+  const currentPurchasesTotal = useSelector((state) =>
+    selectCurrentPurchasesTotal(state, currentPurchases)
+  );
 
-  const payments = useSelector(paymentsSelector);
-
-  const openedPayments = useSelector((state) => {
-    const getSelector = openedPaymentsSelector();
-    return getSelector(state, openedPurchases, payments);
-  });
-
-  const openedPaymentsTotal = useSelector((state) => {
-    const getSelector = openedPaymentsTotalSelector();
-    return getSelector(state, openedPayments);
-  });
-
-  const openedPurchasesTotal = useSelector((state) => {
-    const getSelector = openedPurchasesTotalSelector();
-    return getSelector(state, openedPurchases);
-  });
-
-  const lastPayment = openedPayments[openedPayments.length - 1];
+  const lastPayment = currentPayments[currentPayments.length - 1];
   const nextPayment = dayjs(lastPayment?.date).add(dayjs.duration(30, "d"));
 
   return (
@@ -47,13 +44,13 @@ function PaymentHistory() {
         Оплатил за последнюю покупку: {lastPayment?.amount}
       </PaymentHistoryItem>
       <PaymentHistoryItem>
-        Осталось к оплате: {openedPurchasesTotal - openedPaymentsTotal}
+        Осталось к оплате: {currentPurchasesTotal - currentPaymentsTotal}
       </PaymentHistoryItem>
       <PaymentHistoryItem>
         Следующая оплата: {dayjs(nextPayment).fromNow()}
       </PaymentHistoryItem>
       <PaymentHistoryItem>
-        Оплатил за все время: {openedPaymentsTotal}
+        Оплатил за все время: {currentPaymentsTotal}
       </PaymentHistoryItem>
     </>
   );

@@ -1,38 +1,36 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { useSelector } from "react-redux";
 import dayjs from "dayjs";
 import {
-  openedPurchasesSelector,
-  openedPurchasesTotalSelector,
+  currentPurchasesSelector,
+  currentPurchasesTotalSelector,
 } from "../../../../../../../redux/ducks/purchases";
 import {
-  openedPaymentsSelector,
-  openedPaymentsTotalSelector,
-  paymentsSelector,
+  currentPaymentsSelector,
+  currentPaymentsTotalSelector,
 } from "../../../../../../../redux/ducks/payments";
 
 function DebtorPaymentInfo({ debtorId }) {
-  const currentPurchases = useSelector((state) => {
-    const getSelector = openedPurchasesSelector();
-    return getSelector(state, debtorId.toString());
-  });
+  const selectCurrentPurchases = useMemo(currentPurchasesSelector, []);
+  const currentPurchases = useSelector((state) =>
+    selectCurrentPurchases(state, debtorId.toString())
+  );
+  const selectCurrentPayments = useMemo(currentPaymentsSelector, []);
+  const currentPayments = useSelector((state) =>
+    selectCurrentPayments(state, currentPurchases)
+  );
+  const selectCurrentPaymentsTotal = useMemo(currentPaymentsTotalSelector, []);
+  const currentPaymentsTotal = useSelector((state) =>
+    selectCurrentPaymentsTotal(state, currentPayments)
+  );
 
-  const payments = useSelector(paymentsSelector);
-
-  const currentPayments = useSelector((state) => {
-    const getSelector = openedPaymentsSelector();
-    return getSelector(state, currentPurchases, payments);
-  });
-
-  const currentPaymentsTotal = useSelector((state) => {
-    const getSelector = openedPaymentsTotalSelector();
-    return getSelector(state, currentPayments);
-  });
-
-  const currentPurchasesTotal = useSelector((state) => {
-    const getSelector = openedPurchasesTotalSelector();
-    return getSelector(state, currentPurchases);
-  });
+  const selectCurrentPurchasesTotal = useMemo(
+    currentPurchasesTotalSelector,
+    []
+  );
+  const currentPurchasesTotal = useSelector((state) =>
+    selectCurrentPurchasesTotal(state, currentPurchases)
+  );
 
   const lastPayment = currentPayments[currentPayments.length - 1];
   const nextPayment = dayjs(lastPayment?.date).add(dayjs.duration(30, "d"));

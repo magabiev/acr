@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
 export const FilterParent = styled.div`
   position: sticky;
@@ -42,6 +42,22 @@ export const FilterItem = styled.div`
     }
   }
 `;
+const scaleCheckBox = keyframes`
+  from{
+    transform: scale(0.5);
+  }
+  to{
+    transform: scale(1);
+  }
+`;
+const scaleOutCheckBox = keyframes`
+  from{
+    transform: scale(1);
+  }
+  to{
+    transform: scale(0.5);
+  }
+`;
 export const CheckBox = styled.div`
   border: 1px solid #9d65c9;
   border-radius: 5px;
@@ -54,11 +70,22 @@ export const CheckBox = styled.div`
   > i {
     margin: auto;
     color: #9d65c9;
-    visibility: ${(props) => (props.checked && "visible") || "hidden"};
+    animation-name: ${(props) => props.checked && scaleCheckBox};
+    animation-duration: 0.2s;
+    visibility: ${(props) => (props.checked ? "visible" : "hidden")};
+  }
+`;
+const scaleRadio = keyframes`
+  from{
+    transform: scale(1.5);
+  }
+  to{
+    transform: scale(1);
   }
 `;
 export const Radio = styled(CheckBox)`
   border-radius: 50%;
+  overflow: hidden;
   &:after {
     display: block;
     content: "";
@@ -67,7 +94,9 @@ export const Radio = styled(CheckBox)`
     background-color: #9d65c9;
     border-radius: 50%;
     margin: auto;
-    visibility: ${(props) => (props.checked && "visible") || "hidden"};
+    animation-name: ${(props) => props.checked && scaleRadio};
+    animation-duration: 0.5s;
+    visibility: ${(props) => (props.checked ? "visible" : "hidden")};
   }
 `;
 export const FormHint = styled.div`

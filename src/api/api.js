@@ -2,6 +2,10 @@ function fetchRequest(path, method, params) {
   const ip = "http://localhost:3005/";
   return fetch(ip + path, {
     method,
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify(params),
   }).then((res) => res.json());
 }

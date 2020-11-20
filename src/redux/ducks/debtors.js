@@ -2,8 +2,8 @@ import { get } from "../../api/api";
 import { createSelector } from "reselect";
 
 /** Types **/
-const load_started = "debtors/load/started";
-const load_succeed = "debtors/load/succeed";
+const LOAD_STARTED = "debtors/load/started";
+const LOAD_SUCCEED = "debtors/load/succeed";
 
 /** State **/
 const initialState = {
@@ -14,12 +14,12 @@ const initialState = {
 /** Reducer **/
 export default function debtors(state = initialState, action) {
   switch (action.type) {
-    case load_started:
+    case LOAD_STARTED:
       return {
         ...state,
         loading: true,
       };
-    case load_succeed:
+    case LOAD_SUCCEED:
       return {
         ...state,
         items: action.payload,
@@ -35,55 +35,77 @@ export default function debtors(state = initialState, action) {
 /** Thunks **/
 export function loadDebtors() {
   return (dispatch) => {
-    dispatch({ type: load_started });
+    dispatch({ type: LOAD_STARTED });
     get("clients").then((json) =>
       dispatch({
-        type: load_succeed,
+        type: LOAD_SUCCEED,
         payload: json,
       })
     );
   };
 }
 
-export function debtorsPaymentBalance(from = 0, to = 0) {
+export function debtorsPaymentBalanceLoad(from = 0, to = 0) {
   return (dispatch) => {
-    dispatch({ type: load_started });
-    get(`/paymentsBalances/from=:${from}/to=:${to}`).then((json) =>
+    dispatch({ type: LOAD_STARTED });
+    get(`paymentsBalances/from=${from}/to=${to}`).then((json) =>
       dispatch({
-        type: load_succeed,
+        type: LOAD_SUCCEED,
         payload: json,
       })
     );
   };
 }
-
-/** Selectors **/
-const allDebtors = (state) => state.debtors.items;
-
-export const filterDebtors = (state, searchValue) => {
-  return state.debtors.items.filter((item) => {
-    return (
-      item.firstName.toUpperCase().indexOf(searchValue.toUpperCase()) !== -1 ||
-      item.lastName.toUpperCase().indexOf(searchValue.toUpperCase()) !== -1 ||
-      item.surName.toUpperCase().indexOf(searchValue.toUpperCase()) !== -1
+export function lastPaymentWeekAgoLoad() {
+  return (dispatch) => {
+    dispatch({ type: LOAD_STARTED });
+    get("lastPayment/weekAgo").then((json) =>
+      dispatch({
+        type: LOAD_SUCCEED,
+        payload: json,
+      })
     );
-  });
-};
-
+  };
+}
+export function lastPaymentMonthAgoLoad() {
+  return (dispatch) => {
+    dispatch({ type: LOAD_STARTED });
+    get("lastPayment/monthAgo").then((json) =>
+      dispatch({
+        type: LOAD_SUCCEED,
+        payload: json,
+      })
+    );
+  };
+}
+export function unpaidDebtLoad() {
+  return (dispatch) => {
+    dispatch({ type: LOAD_STARTED });
+    get("unpaidDebt").then((json) =>
+      dispatch({
+        type: LOAD_SUCCEED,
+        payload: json,
+      })
+    );
+  };
+}
+/** Selectors **/
 export const filteredDebtorsSelector = createSelector(
-  [filterDebtors],
-  (items) => items
+  (state) => state.debtors.items,
+  (_, searchValue) => searchValue,
+  (state, searchValue) =>
+    state.filter((item) => {
+      return (
+        item.firstName.toUpperCase().indexOf(searchValue.toUpperCase()) !==
+          -1 ||
+        item.lastName.toUpperCase().indexOf(searchValue.toUpperCase()) !== -1 ||
+        item.surName.toUpperCase().indexOf(searchValue.toUpperCase()) !== -1
+      );
+    })
 );
 
-export const allDebtorsSelector = createSelector(
-  [allDebtors],
-  (items) => items
+export const currentDebtorSelector = createSelector(
+  (state) => state.debtors.items,
+  (_, debtorId) => debtorId,
+  (state, debtorId) => state.find((item) => item.id.toString() === debtorId)
 );
-
-const currentDebtor = (state, openedId) =>
-  state.debtors.items.find((item) => {
-    return item.id.toString() === openedId;
-  });
-
-export const currentDebtorSelector = () =>
-  createSelector([currentDebtor], (debtors) => debtors);

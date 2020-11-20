@@ -5,30 +5,28 @@ import {
   DebtHeaderParent,
   DebtHeaderContent,
 } from "./styled";
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import DebtName from "./DebtName";
 import DebtContactInfo from "./DebtContactInfo";
 import { useSelector } from "react-redux";
 import { currentDebtorSelector } from "../../../../../../../redux/ducks/debtors";
+import { useParams } from "react-router-dom";
 
 function DebtHeader() {
+  const opened = useParams().id;
   const header = useRef();
   const headerName = useRef();
   const history = useHistory();
-  const opened = useParams().id;
 
-  const currentDebtor = useSelector((state) => {
-    const getSelector = currentDebtorSelector();
-    return getSelector(state, opened);
-  });
-
-  const loading = useSelector((state) => state.debtors.loading);
+  const currentDebtor = useSelector((state) =>
+    currentDebtorSelector(state, opened)
+  );
 
   const handleClick = () => {
     history.push("");
   };
 
-  const scroll = useCallback(() => {
+  const addHeaderPadding = useCallback(() => {
     window.onscroll = () => {
       if (window.scrollY >= 120) {
         header.current.style.boxShadow = "0px 2px 8px rgba(0, 0, 0, 0.1)";
@@ -43,21 +41,21 @@ function DebtHeader() {
   }, []);
 
   useEffect(() => {
-    scroll();
-  });
+    addHeaderPadding();
+  }, [addHeaderPadding]);
 
   return (
     <DebtHeaderParent>
       <DebtHeaderContent ref={header}>
         <DebtHeaderItem>
           <div>
-            <DebtName fullName={!loading && currentDebtor} />
+            <DebtName fullName={currentDebtor} />
             <DebtClose onClick={handleClick}>
               <i className="material-icons">clear</i>
             </DebtClose>
           </div>
           <div ref={headerName}>
-            <DebtContactInfo contactInfo={!loading && currentDebtor} />
+            <DebtContactInfo contactInfo={currentDebtor} />
           </div>
         </DebtHeaderItem>
       </DebtHeaderContent>

@@ -6,6 +6,8 @@ import payments from "./ducks/payments";
 import purchases from "./ducks/purchases";
 import searchDebtors from "./ducks/search";
 import paymentMethods from "./ducks/paymentMethods";
+import login from "./ducks/authorization";
+import application from "./ducks/application";
 /**
  * Настройка логгера
  */
@@ -20,6 +22,8 @@ const reducers = combineReducers({
   purchases,
   searchDebtors,
   paymentMethods,
+  login,
+  application,
 });
 
 export const store = createStore(

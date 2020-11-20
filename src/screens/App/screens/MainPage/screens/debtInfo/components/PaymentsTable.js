@@ -1,42 +1,43 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { Table, TableHeader, TableItem } from "./styled";
-import { LinkButton } from "../../../../../components/styled";
-import { useSelector } from "react-redux";
-// noinspection ES6CheckImport
-import { useParams } from "react-router-dom";
+import { LinkButton } from "../../../../../../shared/components/styled";
+import { useDispatch, useSelector } from "react-redux";
 import PaymentsTableItem from "./PaymentsTableItem";
-import { openedPurchasesSelector } from "../../../../../../../redux/ducks/purchases";
-import {
-  openedPaymentsSelector,
-  paymentsSelector,
-} from "../../../../../../../redux/ducks/payments";
+import { paymentAddToggled } from "../../../../../../../redux/ducks/application";
+import { currentPurchasesSelector } from "../../../../../../../redux/ducks/purchases";
+import { currentPaymentsSelector } from "../../../../../../../redux/ducks/payments";
+import { useParams } from "react-router-dom";
 
 function PaymentsTable() {
-  const [openTable, setOpenTable] = useState(false);
   const opened = useParams().id;
+  const dispatch = useDispatch();
+  const [openTable, setOpenTable] = useState(false);
+  const selectCurrentPurchases = useMemo(currentPurchasesSelector, []);
+  const currentPurchases = useSelector((state) =>
+    selectCurrentPurchases(state, opened)
+  );
+  const selectCurrentPayments = useMemo(currentPaymentsSelector, []);
+  const currentPayments = useSelector((state) =>
+    selectCurrentPayments(state, currentPurchases).reverse()
+  );
+
   const loadingPayments = useSelector((state) => state.payments.loading);
-  const openedPurchases = useSelector((state) => {
-    const getSelector = openedPurchasesSelector();
-    return getSelector(state, opened);
-  });
-  const payments = useSelector(paymentsSelector);
-  const openedPayments = useSelector((state) => {
-    const getSelector = openedPaymentsSelector();
-    return getSelector(state, openedPurchases, payments);
-  });
 
   const toggleOpenTable = () => {
     setOpenTable(!openTable);
+  };
+  const paymentAddShow = () => {
+    dispatch(paymentAddToggled());
   };
 
   return (
     <>
       <TableHeader open={openTable}>
         <p onClick={toggleOpenTable}>
-          Все платежи ({!loadingPayments && openedPayments.length})
+          Все платежи ({!loadingPayments && currentPayments.length})
           <i className="material-icons">navigate_next</i>
         </p>
-        <LinkButton>+ добавить платеж</LinkButton>
+        <LinkButton onClick={paymentAddShow}>+ добавить платеж</LinkButton>
       </TableHeader>
       <Table open={openTable}>
         <TableItem>
@@ -47,7 +48,7 @@ function PaymentsTable() {
           <div>Комментарий</div>
         </TableItem>
         {!loadingPayments &&
-          openedPayments.reverse().map((item, index) => {
+          currentPayments.map((item, index) => {
             return (
               <PaymentsTableItem
                 key={item.id}

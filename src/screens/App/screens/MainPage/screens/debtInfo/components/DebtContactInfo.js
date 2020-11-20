@@ -1,6 +1,6 @@
 import React from "react";
 import { DebtContactInfoItem } from "./styled";
-import { LinkButton } from "../../../../../components/styled";
+import { LinkButton } from "../../../../../../shared/components/styled";
 
 function DebtContactInfo({ contactInfo }) {
   /**

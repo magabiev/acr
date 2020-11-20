@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import Debtor from "./Debtor";
 import { valueSelector } from "../../../../../../../redux/ducks/search";
 import { filteredDebtorsSelector } from "../../../../../../../redux/ducks/debtors";
+import { Spinner } from "../../../../../../shared/components/styled";
 
 function DebtorsList() {
   const searchBlock = useRef(null);
@@ -16,7 +17,7 @@ function DebtorsList() {
 
   const loadingDebtors = useSelector((state) => state.debtors.loading);
 
-  const scroll = useCallback(() => {
+  const searchPaddingAdd = useCallback(() => {
     window.onscroll = () => {
       if (window.scrollY >= 120) {
         searchBlock.current.style.paddingTop = "20px";
@@ -27,20 +28,26 @@ function DebtorsList() {
   }, []);
 
   useEffect(() => {
-    scroll();
-  });
+    searchPaddingAdd();
+  }, [searchPaddingAdd]);
 
-  return (
-    <DebtorParent>
-      <StickySearch ref={searchBlock}>
-        <Search />
-      </StickySearch>
-      <Debtors>
-        {!loadingDebtors &&
-          filterDebtors.map((item) => {
+  if (!loadingDebtors) {
+    return (
+      <DebtorParent>
+        <StickySearch ref={searchBlock}>
+          <Search />
+        </StickySearch>
+        <Debtors>
+          {filterDebtors.map((item) => {
             return <Debtor key={item.id} debtor={item} />;
           })}
-      </Debtors>
+        </Debtors>
+      </DebtorParent>
+    );
+  }
+  return (
+    <DebtorParent>
+      <Spinner />
     </DebtorParent>
   );
 }

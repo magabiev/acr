@@ -1,10 +1,15 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { FilterForm, FilterItem, FormHint } from "./styled";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { debtorsPaymentBalanceLoad } from "../../../../../../../redux/ducks/debtors";
+import {
+  loadPaymentsBalance,
+  paymentBalanceSelector,
+} from "../../../../../../../redux/ducks/payments";
 
-function BalanceOwedFilter({ totalBalances }) {
+function BalanceOwedFilter() {
   const dispatch = useDispatch();
-
+  const paymentBalance = useSelector(paymentBalanceSelector);
   const [fromValue, setFromValue] = useState("");
   const [toValue, setToValue] = useState("");
 
@@ -15,6 +20,17 @@ function BalanceOwedFilter({ totalBalances }) {
   const toHandle = (e) => {
     setToValue(e.target.value);
   };
+
+  const filterBalanceOwed = useCallback(() => {
+    if (fromValue.length || toValue.length) {
+      dispatch(debtorsPaymentBalanceLoad(Number(fromValue), Number(toValue)));
+    }
+  }, [dispatch, fromValue, toValue]);
+
+  useEffect(() => {
+    filterBalanceOwed();
+    dispatch(loadPaymentsBalance());
+  }, [dispatch, filterBalanceOwed]);
 
   return (
     <FilterItem justify="space-between">
@@ -27,13 +43,13 @@ function BalanceOwedFilter({ totalBalances }) {
         <FilterForm
           onChange={fromHandle}
           value={fromValue}
-          placeholder={"minPaymentBalance"}
+          placeholder={Math.min(...paymentBalance)}
           type="number"
         />
         <FilterForm
           onChange={toHandle}
           value={toValue}
-          placeholder={"maxPaymentBalance"}
+          placeholder={Math.max(...paymentBalance)}
           type="number"
         />
       </div>

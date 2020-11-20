@@ -1,6 +1,4 @@
-import { createSelector } from "reselect";
 /** Types **/
-
 const debtors_search_started = "debtors/search/started";
 
 /** State **/
@@ -23,9 +21,8 @@ export default function searchDebtors(state = initialState, action) {
   }
 }
 /** Selectors **/
-const value = (state) => state.searchDebtors.value;
-//todo comment all reselects
-export const valueSelector = createSelector([value], (items) => items);
+
+export const valueSelector = (state) => state.searchDebtors.value;
 
 /** Actions **/
 export function searchRequest(value) {

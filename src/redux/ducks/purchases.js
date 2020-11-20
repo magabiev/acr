@@ -1,29 +1,42 @@
-import { get } from "../../api/api";
+import { get, post } from "../../api/api";
 import { createSelector } from "reselect";
 
 /** Types **/
-const purchases_load_started = "purchases/load/started";
-const purchases_load_succeed = "purchases/load/succeed";
+const PURCHASES_LOAD_STARTED = "purchases/load/started";
+const PURCHASES_LOAD_SUCCEED = "purchases/load/succeed";
+const PURCHASE_ADD_STARTED = "purchase/add/started";
+const PURCHASE_ADD_SUCCEED = "purchase/add/succeed";
 
 /** State **/
 const initialState = {
   items: [],
   loading: false,
+  adding: false,
 };
-
 /** Reducer **/
 export default function purchases(state = initialState, action) {
   switch (action.type) {
-    case purchases_load_started:
+    case PURCHASES_LOAD_STARTED:
       return {
         ...state,
         loading: true,
       };
-    case purchases_load_succeed:
+    case PURCHASES_LOAD_SUCCEED:
       return {
         ...state,
         items: action.payload,
         loading: false,
+      };
+    case PURCHASE_ADD_STARTED:
+      return {
+        ...state,
+        adding: true,
+      };
+    case PURCHASE_ADD_SUCCEED:
+      return {
+        ...state,
+        adding: false,
+        items: [...state.items, action.payload],
       };
     default:
       return {
@@ -32,40 +45,65 @@ export default function purchases(state = initialState, action) {
   }
 }
 
-/** Selectors **/
-export const openedPurchases = (state, opened) =>
-  state.purchases.items.filter((item) => {
-    return opened === item.clientId.toString();
-  });
-
-// const res = createSelector([openedPurchases], (items) => {
-//   console.log('я выполнился')
-//   return items.reduce((total, purchase) => {
-//     return total + purchase?.price;
-//   }, 0);
-// });
-
-const openedPurchasesTotal = (state, openedPurchase) => {
-  return openedPurchase.reduce((total, purchase) => {
-    return total + purchase?.price;
-  }, 0);
-};
-
-export const openedPurchasesTotalSelector = () =>
-  createSelector([openedPurchasesTotal], (items) => items);
-
-export const openedPurchasesSelector = () =>
-  createSelector([openedPurchases], (items) => items);
-
 /** Actions **/
 export function loadPurchases() {
   return (dispatch) => {
-    dispatch({ type: purchases_load_started });
     get("purchases").then((json) =>
       dispatch({
-        type: purchases_load_succeed,
+        type: PURCHASES_LOAD_SUCCEED,
         payload: json,
       })
     );
   };
 }
+
+export function loadCurrentPurchases(clientId) {
+  return (dispatch) => {
+    dispatch({ type: PURCHASES_LOAD_STARTED });
+    get(`purchases/clientId=${clientId}`).then((json) =>
+      dispatch({
+        type: PURCHASES_LOAD_SUCCEED,
+        payload: json,
+      })
+    );
+  };
+}
+export function addedPurchase(name, clientId, price, date) {
+  return (dispatch, getState) => {
+    const purchases = getState().purchases.items;
+    dispatch({ type: PURCHASE_ADD_STARTED });
+    const nextPurchaseId = purchases[purchases.length - 1].id + 1;
+    post(`purchases`, {
+      id: nextPurchaseId,
+      name,
+      clientId: Number(clientId),
+      price: Number(price),
+      date,
+      completed: false,
+    }).then((json) =>
+      dispatch({
+        type: PURCHASE_ADD_SUCCEED,
+        payload: json,
+      })
+    );
+  };
+}
+/** Selectors **/
+export const currentPurchasesSelector = () =>
+  createSelector(
+    (state) => state.purchases.items,
+    (_, opened) => opened,
+    (state, opened) =>
+      state.filter((item) => {
+        return opened === item.clientId.toString();
+      })
+  );
+
+export const currentPurchasesTotalSelector = () =>
+  createSelector(
+    (_, openedPurchase) => openedPurchase,
+    (openedPurchase) =>
+      openedPurchase.reduce((total, purchase) => {
+        return total + purchase?.price;
+      }, 0)
+  );

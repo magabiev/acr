@@ -68,6 +68,6 @@ export const ShowPassword = styled.div`
   justify-content: flex-end;
   padding-right: 10px;
   display: flex;
-  color: #d0d0d0;
+  color: ${(props) => (props.iconColor ? "#9d65c9" : "#d0d0d0")};
   cursor: pointer;
 `;

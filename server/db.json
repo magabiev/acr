@@ -1,109 +1,112 @@
 {
-  "admin": {
-    "login": "Magabiev",
-    "password": 12345
-  },
+  "admins": [
+    {
+      "id": 1,
+      "login": "Magabiev",
+      "password": "12345"
+    }
+  ],
   "clients": [
-  {
-    "id": 1,
-    "firstName": "Ахмад",
-    "lastName": "Цугаев",
-    "surName": "Якубович",
-    "countryCode": "+7",
-    "phone": "9894567654",
-    "city": "Грозный",
-    "address": "ул.Трошева, 7"
-  },
-  {
-    "id": 2,
-    "firstName": "Магомед",
-    "lastName": "Эбиев",
-    "surName": "Харонович",
-    "countryCode": "+7",
-    "phone": "9958004307",
-    "city": "Грозный",
-    "address": "ул.Мира, 7"
-  },
-  {
-    "id": 3,
-    "firstName": "Максим",
-    "lastName": "Алексеев",
-    "surName": "Сергеевич",
-    "countryCode": "+7",
-    "phone": "9289075643",
-    "city": "Москва",
-    "address": "ул.Никольская, 5"
-  },
-  {
-    "id": 4,
-    "firstName": "Владимир",
-    "lastName": "Сергеев",
-    "surName": "Максимович",
-    "countryCode": "+7",
-    "phone": "9876575434",
-    "city": "Москва",
-    "address": "ул.Никольская, 9"
-  },
-  {
-    "id": 5,
-    "firstName": "Глеб",
-    "lastName": "Максимов",
-    "surName": "Игоревич",
-    "countryCode": "+7",
-    "phone": "9387654534",
-    "city": "Москва",
-    "address": "ул.Тверская, 2"
-  },
-  {
-    "id": 6,
-    "firstName": "Владимир",
-    "lastName": "Семенов",
-    "surName": "Александрович",
-    "countryCode": "+7",
-    "phone": "9885664576",
-    "city": "Москва",
-    "address": "ул.Моховая 6"
-  },
-  {
-    "id": 7,
-    "firstName": "Дмитрий",
-    "lastName": "Лебедев",
-    "surName": "Никитич",
-    "countryCode": "+7",
-    "phone": "9664567667",
-    "city": "Москва",
-    "address": "ул.Ильинка 8"
-  },
-  {
-    "id": 8,
-    "firstName": "Роман",
-    "lastName": "Николаев",
-    "surName": "Дмитриевич",
-    "countryCode": "+7",
-    "phone": "9675664534",
-    "city": "Москва",
-    "address": "ул.Маросейка 5"
-  },
-  {
-    "id": 9,
-    "firstName": "Геннадий",
-    "lastName": "Михайлов",
-    "surName": "Никитич",
-    "countryCode": "+7",
-    "phone": "9657856545",
-    "city": "Москва",
-    "address": "ул.Тверская 3"
-  },
-  {
-    "id": 10,
-    "firstName": "Петр",
-    "lastName": "Павлов",
-    "surName": "Сергеевич",
-    "countryCode": "+7",
-    "phone": "9896775645",
-    "city": "Москва",
-    "address": "ул.Воздвиженка 2"
-  }
+    {
+      "id": 1,
+      "firstName": "Ахмад",
+      "lastName": "Цугаев",
+      "surName": "Якубович",
+      "countryCode": "+7",
+      "phone": "9894567654",
+      "city": "Грозный",
+      "address": "ул.Трошева, 7"
+    },
+    {
+      "id": 2,
+      "firstName": "Магомед",
+      "lastName": "Эбиев",
+      "surName": "Харонович",
+      "countryCode": "+7",
+      "phone": "9958004307",
+      "city": "Грозный",
+      "address": "ул.Мира, 7"
+    },
+    {
+      "id": 3,
+      "firstName": "Максим",
+      "lastName": "Алексеев",
+      "surName": "Сергеевич",
+      "countryCode": "+7",
+      "phone": "9289075643",
+      "city": "Москва",
+      "address": "ул.Никольская, 5"
+    },
+    {
+      "id": 4,
+      "firstName": "Владимир",
+      "lastName": "Сергеев",
+      "surName": "Максимович",
+      "countryCode": "+7",
+      "phone": "9876575434",
+      "city": "Москва",
+      "address": "ул.Никольская, 9"
+    },
+    {
+      "id": 5,
+      "firstName": "Глеб",
+      "lastName": "Максимов",
+      "surName": "Игоревич",
+      "countryCode": "+7",
+      "phone": "9387654534",
+      "city": "Москва",
+      "address": "ул.Тверская, 2"
+    },
+    {
+      "id": 6,
+      "firstName": "Владимир",
+      "lastName": "Семенов",
+      "surName": "Александрович",
+      "countryCode": "+7",
+      "phone": "9885664576",
+      "city": "Москва",
+      "address": "ул.Моховая 6"
+    },
+    {
+      "id": 7,
+      "firstName": "Дмитрий",
+      "lastName": "Лебедев",
+      "surName": "Никитич",
+      "countryCode": "+7",
+      "phone": "9664567667",
+      "city": "Москва",
+      "address": "ул.Ильинка 8"
+    },
+    {
+      "id": 8,
+      "firstName": "Роман",
+      "lastName": "Николаев",
+      "surName": "Дмитриевич",
+      "countryCode": "+7",
+      "phone": "9675664534",
+      "city": "Москва",
+      "address": "ул.Маросейка 5"
+    },
+    {
+      "id": 9,
+      "firstName": "Геннадий",
+      "lastName": "Михайлов",
+      "surName": "Никитич",
+      "countryCode": "+7",
+      "phone": "9657856545",
+      "city": "Москва",
+      "address": "ул.Тверская 3"
+    },
+    {
+      "id": 10,
+      "firstName": "Петр",
+      "lastName": "Павлов",
+      "surName": "Сергеевич",
+      "countryCode": "+7",
+      "phone": "9896775645",
+      "city": "Москва",
+      "address": "ул.Воздвиженка 2"
+    }
   ],
   "paymentMethods": [
     {
@@ -398,7 +401,7 @@
     },
     {
       "id": 36,
-      "date": "2020-08-22",
+      "date": "2020-11-15",
       "purchaseId": 1,
       "amount": 10000,
       "note": "comment",
@@ -683,7 +686,7 @@
       "name": "MacBook Pro 13",
       "clientId": 10,
       "price": 119000,
-      "date": "28-09-2019",
+      "date": "2019-09-28",
       "completed": false
     }
   ]

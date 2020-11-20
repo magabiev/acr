@@ -1,31 +1,36 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { Table, TableHeader, TableItem } from "./styled";
-import { LinkButton } from "../../../../../components/styled";
-import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { LinkButton } from "../../../../../../shared/components/styled";
+import { useDispatch, useSelector } from "react-redux";
 import PurchasesTableItem from "./PurchasesTableItem";
-import { openedPurchasesSelector } from "../../../../../../../redux/ducks/purchases";
+import { purchaseAddToggled } from "../../../../../../../redux/ducks/application";
+import { currentPurchasesSelector } from "../../../../../../../redux/ducks/purchases";
+import { useParams } from "react-router-dom";
 
 function PurchasesTable() {
-  const [openTable, setOpenTable] = useState(false);
   const opened = useParams().id;
+  const dispatch = useDispatch();
+  const [openTable, setOpenTable] = useState(false);
   const loadingPurchases = useSelector((state) => state.purchases.loading);
-  const openedPurchases = useSelector((state) => {
-    const getSelector = openedPurchasesSelector();
-    return getSelector(state, opened);
-  });
+  const selectCurrentPurchases = useMemo(currentPurchasesSelector, []);
+  const currentPurchases = useSelector((state) =>
+    selectCurrentPurchases(state, opened).reverse()
+  );
   const toggleOpenTable = () => {
     setOpenTable(!openTable);
+  };
+  const purchaseAddShow = () => {
+    dispatch(purchaseAddToggled());
   };
 
   return (
     <>
       <TableHeader open={openTable}>
         <p onClick={toggleOpenTable}>
-          Все покупки ({openedPurchases.length})
+          Все покупки ({currentPurchases.length})
           <i className="material-icons">navigate_next</i>
         </p>
-        <LinkButton>+ добавить покупку</LinkButton>
+        <LinkButton onClick={purchaseAddShow}>+ добавить покупку</LinkButton>
       </TableHeader>
       <Table open={openTable}>
         <TableItem>
@@ -36,7 +41,7 @@ function PurchasesTable() {
           <div>Комментарий</div>
         </TableItem>
         {!loadingPurchases &&
-          openedPurchases.map((item, index) => {
+          currentPurchases.map((item, index) => {
             return (
               <PurchasesTableItem
                 key={item.id}
