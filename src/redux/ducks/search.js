@@ -1,5 +1,5 @@
 /** Types **/
-const debtors_search_started = "debtors/search/started";
+const DEBTORS_SEARCH = "debtors/search";
 
 /** State **/
 const initialState = {
@@ -9,7 +9,7 @@ const initialState = {
 /** Reducer **/
 export default function searchDebtors(state = initialState, action) {
   switch (action.type) {
-    case debtors_search_started:
+    case DEBTORS_SEARCH:
       return {
         ...state,
         value: action.payload,
@@ -20,11 +20,8 @@ export default function searchDebtors(state = initialState, action) {
       };
   }
 }
-/** Selectors **/
-
-export const valueSelector = (state) => state.searchDebtors.value;
 
 /** Actions **/
 export function searchRequest(value) {
-  return { type: debtors_search_started, payload: value };
+  return { type: DEBTORS_SEARCH, payload: value };
 }

@@ -3,13 +3,12 @@ import { DebtorParent, Debtors, StickySearch } from "./styled";
 import Search from "../../search";
 import { useSelector } from "react-redux";
 import Debtor from "./Debtor";
-import { valueSelector } from "../../../../../../../redux/ducks/search";
 import { filteredDebtorsSelector } from "../../../../../../../redux/ducks/debtors";
-import { Spinner } from "../../../../../../shared/components/styled";
+import { Dot, DotWrapper } from "../../../../../../shared/components/styled";
 
 function DebtorsList() {
   const searchBlock = useRef(null);
-  const value = useSelector(valueSelector);
+  const value = useSelector((state) => state.searchDebtors.value);
 
   const filterDebtors = useSelector((state) =>
     filteredDebtorsSelector(state, value)
@@ -46,9 +45,11 @@ function DebtorsList() {
     );
   }
   return (
-    <DebtorParent>
-      <Spinner />
-    </DebtorParent>
+    <DotWrapper>
+      <Dot delay="0s" />
+      <Dot delay=".1s" />
+      <Dot delay=".2s" />
+    </DotWrapper>
   );
 }
 

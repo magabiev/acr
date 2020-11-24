@@ -10,10 +10,12 @@ function Debtor({ debtor }) {
 
   const handleClick = () => {
     if (debtor?.id.toString() !== opened) {
-      history.push(debtor?.id.toString());
+      history.push(`/mainPage/debtInfo/${debtor?.id.toString()}`);
     }
   };
-
+  /**
+   * todo при обновлении страницы пропадает айди выбранного клиента и выбрасывает на главную
+   */
   return (
     <DebtorBlock onClick={handleClick}>
       <DebtorInfo>

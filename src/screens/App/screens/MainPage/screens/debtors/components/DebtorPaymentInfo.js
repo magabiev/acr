@@ -6,6 +6,7 @@ import {
   currentPurchasesTotalSelector,
 } from "../../../../../../../redux/ducks/purchases";
 import {
+  currentPaymentsFilterByDateSelector,
   currentPaymentsSelector,
   currentPaymentsTotalSelector,
 } from "../../../../../../../redux/ducks/payments";
@@ -32,7 +33,12 @@ function DebtorPaymentInfo({ debtorId }) {
     selectCurrentPurchasesTotal(state, currentPurchases)
   );
 
-  const lastPayment = currentPayments[currentPayments.length - 1];
+  const selectFilterByDate = useMemo(currentPaymentsFilterByDateSelector, []);
+  const paymentsFilterByDate = useSelector((state) =>
+    selectFilterByDate(state, currentPayments)
+  );
+
+  const lastPayment = paymentsFilterByDate[0];
   const nextPayment = dayjs(lastPayment?.date).add(dayjs.duration(30, "d"));
   const isDelayPayment = !dayjs().isSameOrBefore(nextPayment);
 

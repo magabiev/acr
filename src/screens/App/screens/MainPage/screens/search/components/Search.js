@@ -1,15 +1,12 @@
 import React, { useState } from "react";
 import { SearchBlock, SearchForm } from "./styled";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  searchRequest,
-  valueSelector,
-} from "../../../../../../../redux/ducks/search";
+import { searchRequest } from "../../../../../../../redux/ducks/search";
 
 function Search() {
   const dispatch = useDispatch();
   const [focus, setFocus] = useState(false);
-  const value = useSelector(valueSelector);
+  const value = useSelector((state) => state.searchDebtors.value);
   const handleChange = (e) => {
     dispatch(searchRequest(e.target.value));
   };

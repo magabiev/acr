@@ -153,3 +153,46 @@ export const CommentForm = styled.textarea`
     outline: none;
   }
 `;
+export const Alert = styled.div`
+  top: 25px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 10px;
+  background-color: white;
+  position: fixed;
+  padding: 15px;
+  border: 1px solid #d0d0d0;
+  box-shadow: 0 0 16px rgba(0, 0, 0, 0.07);
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  color: ${(props) => (props.success ? "green" : "#e4588a")};
+  > i {
+    margin-left: 5px;
+    cursor: pointer;
+    color: black;
+    font-size: 18px;
+    &:hover {
+      color: gray;
+    }
+  }
+`;
+const BounceAnimation = keyframes`
+  0% { margin-bottom: 0; }
+  50% { margin-bottom: 15px }
+  100% { margin-bottom: 0 }
+`;
+export const DotWrapper = styled.div`
+  display: flex;
+  align-items: flex-end;
+  margin: auto;
+`;
+export const Dot = styled.div`
+  background-color: black;
+  border-radius: 50%;
+  width: 15px;
+  height: 15px;
+  margin: 0 5px;
+  animation: ${BounceAnimation} 0.5s linear infinite;
+  animation-delay: ${(props) => props.delay};
+`;

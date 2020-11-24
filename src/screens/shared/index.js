@@ -4,3 +4,7 @@ import PopUpDate from "./components/PopUpDate";
 export { PopUpHeader };
 export { DebtPopUpName };
 export { PopUpDate };
+
+/**
+ * todo проверить импорты
+ */

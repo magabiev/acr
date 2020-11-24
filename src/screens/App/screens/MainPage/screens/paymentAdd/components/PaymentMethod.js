@@ -9,19 +9,25 @@ function PaymentMethod() {
   const openPayMethodToggle = () => {
     setShow(!show);
   };
-  const [value, setValue] = useState("");
-
   const paymentMethods = useSelector((state) => state.paymentMethods.items);
+  const currentPaymentMethod = useSelector(
+    (state) => state.paymentMethods.currentPaymentMethodId
+  );
+
+  const value = paymentMethods.find((item) => item.id === currentPaymentMethod);
 
   const handleChange = (method) => {
     dispatch(paymentMethodSelected(method.id));
-    setValue(method.name);
     setShow(false);
   };
 
   return (
     <PayMethodParent>
-      <PaymentMethodForm placeholder="Способ оплаты" disabled value={value} />
+      <PaymentMethodForm
+        placeholder="Способ оплаты"
+        disabled
+        value={value?.name}
+      />
       <i onClick={openPayMethodToggle} className="material-icons">
         keyboard_arrow_down
       </i>

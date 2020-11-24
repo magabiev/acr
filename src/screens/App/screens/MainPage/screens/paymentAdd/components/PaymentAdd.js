@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useState } from "react";
 import {
   BlackBlock,
   Button,
@@ -16,10 +16,17 @@ import { PopUpHeader } from "../../../../../../shared";
 import { addedPayment } from "../../../../../../../redux/ducks/payments";
 import { useParams } from "react-router-dom";
 import dayjs from "dayjs";
-import { currentPurchasesSelector } from "../../../../../../../redux/ducks/purchases";
+import { openedPurchasesSelector } from "../../../../../../../redux/ducks/purchases";
+import PaymentAddNotification from "./PaymentAddNotification";
+import { paymentMethodSelected } from "../../../../../../../redux/ducks/paymentMethods";
+
+/**
+ * todo длина компонента
+ */
 function PaymentAdd() {
   const opened = useParams().id;
   const dispatch = useDispatch();
+  const [notification, setNotification] = useState(false);
   const [amount, setAmount] = useState("");
   const handleAmount = (e) => {
     setAmount(e.target.value);
@@ -35,42 +42,41 @@ function PaymentAdd() {
   const paymentAddShow = useSelector(
     (state) => state.application.paymentAddShow
   );
-  const selectCurrentPurchases = useMemo(currentPurchasesSelector, []);
-  const currentPurchases = useSelector((state) =>
-    selectCurrentPurchases(state, opened)
+  const openedPurchases = useSelector((state) =>
+    openedPurchasesSelector(state, opened)
   );
-  const currentPaymentMethodId = useSelector(
+  const paymentMethodId = useSelector(
     (state) => state.paymentMethods.currentPaymentMethodId
   );
-  const lastPurchaseId = currentPurchases[currentPurchases.length - 1]?.id;
+  const lastPurchaseId = openedPurchases[openedPurchases.length - 1]?.id;
   const adding = useSelector((state) => state.payments.adding);
   const todayDate = dayjs().format("YYYY-MM-DD");
   const addPayment = useCallback(() => {
-    if (amount.length && currentPaymentMethodId) {
+    if (amount.length && paymentMethodId) {
       dispatch(
         addedPayment(
           todayDate,
           lastPurchaseId,
           amount,
           comment,
-          currentPaymentMethodId
+          paymentMethodId
         )
-      );
+      ).then(() => setNotification(true));
+      setNotification(true);
+      setAmount("");
+      dispatch(paymentMethodSelected(""));
     }
-  }, [
-    amount,
-    comment,
-    currentPaymentMethodId,
-    dispatch,
-    lastPurchaseId,
-    todayDate,
-  ]);
+  }, [amount, paymentMethodId, dispatch, todayDate, lastPurchaseId, comment]);
 
   return (
     <BlackBlock show={paymentAddShow}>
       <PopUp>
         <PopUpContent>
           <div>
+            <PaymentAddNotification
+              notification={notification}
+              setN={setNotification}
+            />
             <PopUpHeader handleClick={paymentAddShowToggle} header="платеж" />
           </div>
           <div>

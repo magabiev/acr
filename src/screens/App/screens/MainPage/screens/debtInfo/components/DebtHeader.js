@@ -23,7 +23,7 @@ function DebtHeader() {
   );
 
   const handleClick = () => {
-    history.push("");
+    history.push("/mainPage/debtors");
   };
 
   const addHeaderPadding = useCallback(() => {

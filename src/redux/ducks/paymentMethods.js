@@ -5,7 +5,9 @@ import { createSelector } from "reselect";
 const LOAD_STARTED = "paymentMethods/load/started";
 const LOAD_SUCCEED = "paymentMethods/load/succeed";
 const CHOICE_PAYMENT_METHOD = "choice/paymentMethod/succeed";
-
+/**
+ * todo выбор метода оплаты через редакс
+ */
 /** State **/
 const initialState = {
   items: [],

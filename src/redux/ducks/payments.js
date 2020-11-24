@@ -1,5 +1,6 @@
 import { get, post } from "../../api/api";
 import { createSelector } from "reselect";
+import dayjs from "dayjs";
 /** Types **/
 const PAYMENTS_LOAD_STARTED = "payments/load/started";
 const PAYMENTS_LOAD_SUCCEED = "payments/load/succeed";
@@ -39,7 +40,7 @@ export default function payments(state = initialState, action) {
       return {
         ...state,
         balance: action.payload,
-        balanceOwedLoading: false,
+        balanceLoading: false,
       };
     case PAYMENT_ADD_STARTED:
       return {
@@ -104,31 +105,70 @@ export function addedPayment(date, lastPurchaseId, amount, note, methodId) {
   };
 }
 /** Selectors **/
-export const paymentsBalance = (state) => state.payments.balance;
-
+/**
+ * Селектор который нужен в одном экземпляре компонента для вывода остатка платежец текущего клиента
+ */
 export const paymentBalanceSelector = createSelector(
-  [paymentsBalance],
+  (state) => state.payments.balance,
   (items) => items.map((item) => item.paymentBalances)
 );
 
-export const paymentsSelector = (state) => state.payments.items;
+/**
+ * Селектор который нужен в одном экземпляре компонента для вывода платежей текущего клиента
+ */
+export const openedPaymentsSelector = createSelector(
+  (state) => state.payments.items,
+  (_, purchases) => purchases,
+  (state, purchases) => {
+    console.log("openedPaymentsSelector");
+    let items = [];
+    purchases.forEach((purchase) => {
+      const payments = state.filter(
+        (payment) => payment.purchaseId === purchase.id
+      );
+      items = [...items, ...payments];
+    });
+    return items;
+  }
+);
 
+/**
+ * Селектор который нужен в нескольких экземплярах компонента для вывода платежей текущего клиента
+ */
 export const currentPaymentsSelector = () =>
   createSelector(
     (state) => state.payments.items,
     (_, purchases) => purchases,
     (state, purchases) => {
+      console.log("currentPaymentsSelector");
       let items = [];
       purchases.forEach((purchase) => {
-        const pay = state.filter(
+        const payments = state.filter(
           (payment) => payment.purchaseId === purchase.id
         );
-        items = [...items, ...pay];
+        items = [...items, ...payments];
       });
       return items;
     }
   );
 
+/**
+ * Селектор который нужен в одном экземпляре компонента для суммирования цен
+ * всех платежей текущего клиента
+ */
+export const openedPaymentsTotalSelector = createSelector(
+  (_, openedPayment) => openedPayment,
+  (openedPayment) => {
+    return openedPayment.reduce((total, payment) => {
+      return total + payment?.amount;
+    }, 0);
+  }
+);
+
+/**
+ * Селектор который нужен в нескольких экземплярах компонента для суммирования цен
+ * всех платежей текущего клиента
+ */
 export const currentPaymentsTotalSelector = () =>
   createSelector(
     (_, openedPayment) => openedPayment,
@@ -136,4 +176,39 @@ export const currentPaymentsTotalSelector = () =>
       openedPayment.reduce((total, payment) => {
         return total + payment?.amount;
       }, 0)
+  );
+
+/**
+ * Селектор который нужен в одном экземпляре компонента для фильтрации платежей по дате
+ */
+export const openedPaymentsFilterByDateSelector = createSelector(
+  (_, array) => array,
+  (array) => {
+    const dateDiffs = array.map((item) => {
+      const dateDiff = dayjs().diff(item.date, "day");
+      return { id: item.id, dateDiff };
+    });
+    const sortByDate = [...dateDiffs.sort((a, b) => a.dateDiff - b.dateDiff)];
+    return sortByDate.map((payment) => {
+      return array.find((item) => item.id === payment.id);
+    });
+  }
+);
+
+/**
+ * Селектор который нужен в нескольких экземплярах компонента для фильтрации платежей по дате
+ */
+export const currentPaymentsFilterByDateSelector = () =>
+  createSelector(
+    (_, array) => array,
+    (array) => {
+      const dateDiffs = array.map((item) => {
+        const dateDiff = dayjs().diff(item.date, "day");
+        return { id: item.id, dateDiff };
+      });
+      const sortByDate = [...dateDiffs.sort((a, b) => a.dateDiff - b.dateDiff)];
+      return sortByDate.map((payment) => {
+        return array.find((item) => item.id === payment.id);
+      });
+    }
   );

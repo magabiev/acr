@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { FilterItem, Radio } from "./styled";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   lastPaymentMonthAgoLoad,
   lastPaymentWeekAgoLoad,
@@ -12,6 +12,7 @@ function LastPaymentFilter() {
   const [week, setWeek] = useState(false);
   const [month, setMonth] = useState(false);
   const [all, setAll] = useState(true);
+  const allDelayFilter = useSelector((state) => state.debtors.allDelayFilter);
   const handleWeek = () => {
     setWeek(true);
     setMonth(false);
@@ -31,7 +32,7 @@ function LastPaymentFilter() {
     dispatch(loadDebtors());
   };
   return (
-    <FilterItem>
+    <FilterItem disable={allDelayFilter}>
       <p>Последняя оплата</p>
       <div>
         <Radio checked={all} onClick={handleAll} />

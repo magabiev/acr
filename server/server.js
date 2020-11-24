@@ -145,15 +145,20 @@ server.get("/lastPayment/monthAgo", (req, res) => {
   });
   return res.json(lastPaymentClients);
 });
-/** All delays Filter **/
-server.get("/allDelays", (req, res) => {});
 /** Authorization **/
 server.get("/authorization/login=:login/password=:password", (req, res) => {
   const admin = admins.find((item) => item.login === req.params.login);
   const password = admin.toJSON().password;
-  return password === req.params.password ? res.json(admin) : res.json({});
+  return password === req.params.password
+    ? res.json(admin.toJSON().token)
+    : res.json();
 });
-
+/** Admin Data **/
+server.get("/adminInfo/token=:token", (req, res) => {
+  const admin = admins.find((item) => item.token === req.params.token);
+  const token = admin.toJSON().token;
+  return token === req.params.token ? res.json(admin) : res.json();
+});
 server.use(router);
 
 server.listen(3005, function () {

@@ -4,11 +4,13 @@ import { createSelector } from "reselect";
 /** Types **/
 const LOAD_STARTED = "debtors/load/started";
 const LOAD_SUCCEED = "debtors/load/succeed";
+const ALL_DELAYS_FILTERED = "allDelay/filtered/succeed";
 
 /** State **/
 const initialState = {
   items: [],
   loading: false,
+  allDelayFilter: false,
 };
 
 /** Reducer **/
@@ -24,6 +26,11 @@ export default function debtors(state = initialState, action) {
         ...state,
         items: action.payload,
         loading: false,
+      };
+    case ALL_DELAYS_FILTERED:
+      return {
+        ...state,
+        allDelayFilter: !state.allDelayFilter,
       };
     default:
       return {
@@ -89,7 +96,16 @@ export function unpaidDebtLoad() {
     );
   };
 }
+export function allDelaysFilterToggled() {
+  return { type: ALL_DELAYS_FILTERED };
+}
 /** Selectors **/
+/**
+ * Фильтрация массива клиентов по ключам firstName lastName surName
+ */
+/**
+ * todo проверить селекторы
+ */
 export const filteredDebtorsSelector = createSelector(
   (state) => state.debtors.items,
   (_, searchValue) => searchValue,
@@ -103,7 +119,9 @@ export const filteredDebtorsSelector = createSelector(
       );
     })
 );
-
+/**
+ * Вывод текущего клиента
+ */
 export const currentDebtorSelector = createSelector(
   (state) => state.debtors.items,
   (_, debtorId) => debtorId,

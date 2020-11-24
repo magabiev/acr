@@ -12,6 +12,7 @@ function BalanceOwedFilter() {
   const paymentBalance = useSelector(paymentBalanceSelector);
   const [fromValue, setFromValue] = useState("");
   const [toValue, setToValue] = useState("");
+  const allDelayFilter = useSelector((state) => state.debtors.allDelayFilter);
 
   const fromHandle = (e) => {
     setFromValue(e.target.value);
@@ -33,7 +34,7 @@ function BalanceOwedFilter() {
   }, [dispatch, filterBalanceOwed]);
 
   return (
-    <FilterItem justify="space-between">
+    <FilterItem justify="space-between" disable={allDelayFilter}>
       <p>Остаток платы</p>
       <div>
         <FormHint>От</FormHint>

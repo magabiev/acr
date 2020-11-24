@@ -50,14 +50,6 @@ const scaleCheckBox = keyframes`
     transform: scale(1);
   }
 `;
-const scaleOutCheckBox = keyframes`
-  from{
-    transform: scale(1);
-  }
-  to{
-    transform: scale(0.5);
-  }
-`;
 export const CheckBox = styled.div`
   border: 1px solid #9d65c9;
   border-radius: 5px;

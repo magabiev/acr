@@ -22,8 +22,8 @@ const reducers = combineReducers({
   purchases,
   searchDebtors,
   paymentMethods,
-  login,
   application,
+  login,
 });
 
 export const store = createStore(

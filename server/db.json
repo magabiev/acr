@@ -3,7 +3,8 @@
     {
       "id": 1,
       "login": "Magabiev",
-      "password": "12345"
+      "password": "12345",
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
     }
   ],
   "clients": [
@@ -406,6 +407,54 @@
       "amount": 10000,
       "note": "comment",
       "methodId": 2
+    },
+    {
+      "id": 37,
+      "date": "2020-11-24",
+      "purchaseId": 36,
+      "amount": 1000,
+      "note": "",
+      "methodId": 1
+    },
+    {
+      "id": 38,
+      "date": "2020-11-24",
+      "purchaseId": 10,
+      "amount": 1,
+      "note": "",
+      "methodId": 1
+    },
+    {
+      "id": 39,
+      "date": "2020-11-24",
+      "purchaseId": 10,
+      "amount": 1,
+      "note": "",
+      "methodId": 2
+    },
+    {
+      "id": 40,
+      "date": "2020-11-24",
+      "purchaseId": 10,
+      "amount": 1,
+      "note": "",
+      "methodId": 1
+    },
+    {
+      "id": 41,
+      "date": "2020-11-24",
+      "purchaseId": 10,
+      "amount": 1,
+      "note": "",
+      "methodId": 1
+    },
+    {
+      "id": 42,
+      "date": "2020-11-24",
+      "purchaseId": 3,
+      "amount": 3,
+      "note": "er",
+      "methodId": 1
     }
   ],
   "purchases": [
@@ -687,6 +736,14 @@
       "clientId": 10,
       "price": 119000,
       "date": "2019-09-28",
+      "completed": false
+    },
+    {
+      "id": 36,
+      "name": "Iphone",
+      "clientId": 2,
+      "price": 10000,
+      "date": "2020-11-24",
       "completed": false
     }
   ]

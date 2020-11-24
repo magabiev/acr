@@ -44,3 +44,21 @@ export const PayMethodList = styled.div`
     }
   }
 `;
+export const PaymentAddNotificationBlock = styled.div`
+  position: fixed;
+  &.alert-enter {
+    opacity: 0;
+  }
+  &.alert-enter-active {
+    opacity: 1;
+    transition: 1s;
+  }
+  &.alert-exit {
+    opacity: 1;
+    transition: 1s;
+  }
+  &.alert-exit-active {
+    opacity: 0;
+    transition: 1s;
+  }
+`;
