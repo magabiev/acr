@@ -8,8 +8,8 @@ import { useDispatch, useSelector } from "react-redux";
 
 function Authorization() {
   const dispatch = useDispatch();
-  const authorizing = useSelector((state) => state.login.authorizing);
-  const error = useSelector((state) => state.login.error);
+  const authorizing = useSelector((state) => state.authorization.authorizing);
+  const error = useSelector((state) => state.authorization.error);
 
   const [login, setLogin] = useState("");
   const [pass, setPass] = useState("");
