@@ -26,7 +26,4 @@ const reducers = combineReducers({
   login,
 });
 
-export const store = createStore(
-  reducers,
-  applyMiddleware(thunk, process.env.NODE_ENV !== "production" && logger)
-);
+export const store = createStore(reducers, applyMiddleware(thunk, logger));
