@@ -1,5 +1,5 @@
 function fetchRequest(path, method, params) {
-  const ip = "http://localhost:3005/";
+  const ip = "/";
   return fetch(ip + path, {
     method,
     headers: {

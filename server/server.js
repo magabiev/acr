@@ -4,7 +4,9 @@ dayjs.extend(relativeTime);
 
 const jsonServer = require("json-server");
 const server = jsonServer.create();
-const middlewares = jsonServer.defaults();
+const middlewares = jsonServer.defaults({
+  static: "./build",
+});
 
 const path = require("path");
 const router = jsonServer.router(path.join(__dirname, "db.json"));
@@ -161,6 +163,6 @@ server.get("/adminInfo/token=:token", (req, res) => {
 });
 server.use(router);
 
-server.listen(3005, function () {
+server.listen(process.env.PORT || 3005, function () {
   console.log("JSON Server is running");
 });
