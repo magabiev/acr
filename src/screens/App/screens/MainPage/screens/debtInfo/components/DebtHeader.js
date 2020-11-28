@@ -12,7 +12,7 @@ import { useSelector } from "react-redux";
 import { currentDebtorSelector } from "../../../../../../../redux/ducks/debtors";
 import { useParams } from "react-router-dom";
 
-function DebtHeader() {
+function DebtHeader({ isDelayPayment }) {
   const opened = useParams().id;
   const header = useRef();
   const headerName = useRef();
@@ -49,7 +49,10 @@ function DebtHeader() {
       <DebtHeaderContent ref={header}>
         <DebtHeaderItem>
           <div>
-            <DebtName fullName={currentDebtor} />
+            <DebtName
+              fullName={currentDebtor}
+              isDelayPayment={isDelayPayment}
+            />
             <DebtClose onClick={handleClick}>
               <i className="material-icons">clear</i>
             </DebtClose>

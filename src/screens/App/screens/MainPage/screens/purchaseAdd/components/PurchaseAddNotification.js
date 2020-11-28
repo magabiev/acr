@@ -1,11 +1,11 @@
 import React from "react";
+import { PaymentAddNotificationBlock } from "../../paymentAdd/components/styled";
 import { Alert } from "../../../../../../shared/components/styled";
 import { CSSTransition } from "react-transition-group";
-import { PaymentAddNotificationBlock } from "./styled";
 import { useSelector } from "react-redux";
 
-function PaymentAddNotification({ notification, setN }) {
-  const adding = useSelector((state) => state.payments.adding);
+function PurchaseAddNotification({ notification, setN }) {
+  const adding = useSelector((state) => state.purchases.adding);
   return (
     <CSSTransition
       in={notification}
@@ -26,4 +26,4 @@ function PaymentAddNotification({ notification, setN }) {
   );
 }
 
-export default PaymentAddNotification;
+export default PurchaseAddNotification;

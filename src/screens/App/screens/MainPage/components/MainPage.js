@@ -7,23 +7,17 @@ import DebtInfo from "../screens/debtInfo";
 import { BrowserRouter, Route } from "react-router-dom";
 import DebtorsList from "../screens/debtors";
 import ScrollUp from "../screens/scrollUp";
-import { loadDebtors } from "../../../../../redux/ducks/debtors";
-import { loadPurchases } from "../../../../../redux/ducks/purchases";
-import { loadPayments } from "../../../../../redux/ducks/payments";
 import { useDispatch, useSelector } from "react-redux";
-import { loadAdmin } from "../../../../../redux/ducks/authorization";
+import { loadApplication } from "../../../../../redux/ducks/application";
 
 function MainPage() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(loadAdmin());
-    dispatch(loadDebtors());
-    dispatch(loadPurchases());
-    dispatch(loadPayments());
+    dispatch(loadApplication());
   }, [dispatch]);
 
-  const adminLoading = useSelector((state) => state.login.adminLoading);
+  const adminLoading = useSelector((state) => state.authorization.adminLoading);
 
   if (adminLoading) {
     return null;

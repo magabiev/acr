@@ -89,7 +89,7 @@ export const DebtNameItem = styled.div`
   font-weight: 600;
   > i {
     margin-left: 10px;
-    color: #4bdc26;
+    color: ${(props) => (props.check ? "#4bdc26" : "#ed940e")};
   }
 `;
 

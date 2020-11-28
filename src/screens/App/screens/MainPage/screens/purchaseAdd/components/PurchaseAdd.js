@@ -19,6 +19,7 @@ import PurchaseComment from "./PurchaseComment";
 import { addedPurchase } from "../../../../../../../redux/ducks/purchases";
 import { useParams } from "react-router-dom";
 import dayjs from "dayjs";
+import PurchaseAddNotification from "./PurchaseAddNotification";
 
 function PurchaseAdd() {
   const opened = useParams().id;
@@ -26,6 +27,7 @@ function PurchaseAdd() {
   const purchaseAddShowToggle = () => {
     dispatch(purchaseAddToggled());
   };
+  const [notification, setNotification] = useState(false);
   const [comment, setComment] = useState("");
   const handleComment = (e) => {
     setComment(e.target.value);
@@ -46,6 +48,7 @@ function PurchaseAdd() {
   const addPurchase = useCallback(() => {
     if (name.length && price.length) {
       dispatch(addedPurchase(name, opened, price, todayDate));
+      setNotification(true);
       setPrice("");
       setName("");
       setComment("");
@@ -57,6 +60,10 @@ function PurchaseAdd() {
       <PopUp>
         <PopUpContent>
           <div>
+            <PurchaseAddNotification
+              notification={notification}
+              setN={setNotification}
+            />
             <PopUpHeader handleClick={purchaseAddShowToggle} header="покупку" />
           </div>
           <div>

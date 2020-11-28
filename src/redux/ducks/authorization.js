@@ -17,8 +17,7 @@ const initialState = {
 };
 
 /** Reducer **/
-export default function login(state = initialState, action) {
-  console.log("LOGIN", action.type);
+export default function authorization(state = initialState, action) {
   switch (action.type) {
     case LOGIN_STARTED:
       return {
@@ -52,8 +51,6 @@ export default function login(state = initialState, action) {
     default:
       return {
         ...state,
-        admin: action.payload,
-        adminLoading: false,
       };
   }
 }

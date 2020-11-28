@@ -2,8 +2,8 @@
   "admins": [
     {
       "id": 1,
-      "login": "Magabiev",
-      "password": "12345",
+      "login": "admin",
+      "password": "admin",
       "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
     }
   ],
@@ -407,54 +407,6 @@
       "amount": 10000,
       "note": "comment",
       "methodId": 2
-    },
-    {
-      "id": 37,
-      "date": "2020-11-24",
-      "purchaseId": 36,
-      "amount": 1000,
-      "note": "",
-      "methodId": 1
-    },
-    {
-      "id": 38,
-      "date": "2020-11-24",
-      "purchaseId": 10,
-      "amount": 1,
-      "note": "",
-      "methodId": 1
-    },
-    {
-      "id": 39,
-      "date": "2020-11-24",
-      "purchaseId": 10,
-      "amount": 1,
-      "note": "",
-      "methodId": 2
-    },
-    {
-      "id": 40,
-      "date": "2020-11-24",
-      "purchaseId": 10,
-      "amount": 1,
-      "note": "",
-      "methodId": 1
-    },
-    {
-      "id": 41,
-      "date": "2020-11-24",
-      "purchaseId": 10,
-      "amount": 1,
-      "note": "",
-      "methodId": 1
-    },
-    {
-      "id": 42,
-      "date": "2020-11-24",
-      "purchaseId": 3,
-      "amount": 3,
-      "note": "er",
-      "methodId": 1
     }
   ],
   "purchases": [

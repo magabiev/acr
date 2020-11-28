@@ -21,7 +21,7 @@ function App() {
   dayjs.extend(isSameOrBefore);
   dayjs.locale("ru");
 
-  const token = useSelector((state) => state.login.token);
+  const token = useSelector((state) => state.authorization.token);
   /**
    * todo авторизация и роутинг
    */

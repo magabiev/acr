@@ -20,9 +20,6 @@ import { openedPurchasesSelector } from "../../../../../../../redux/ducks/purcha
 import PaymentAddNotification from "./PaymentAddNotification";
 import { paymentMethodSelected } from "../../../../../../../redux/ducks/paymentMethods";
 
-/**
- * todo длина компонента
- */
 function PaymentAdd() {
   const opened = useParams().id;
   const dispatch = useDispatch();
@@ -61,7 +58,7 @@ function PaymentAdd() {
           comment,
           paymentMethodId
         )
-      ).then(() => setNotification(true));
+      );
       setNotification(true);
       setAmount("");
       dispatch(paymentMethodSelected(""));

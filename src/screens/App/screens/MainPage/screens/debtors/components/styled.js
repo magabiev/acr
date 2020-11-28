@@ -61,16 +61,12 @@ export const DebtorInfo = styled.div`
     margin: 10px 0 0 0;
   }
 `;
-export const DebtorName = styled.div`
+export const DebtorNameBlock = styled.div`
   font-size: 26px;
   font-weight: bold;
-  > .check {
+  > i {
     margin-left: 10px;
-    color: #4bdc26;
-  }
-  > .warning {
-    color: #ed940e;
-    margin-left: 10px;
+    color: ${(props) => (props.check ? "#4bdc26" : "#ed940e")};
   }
 `;
 export const DebtorOpenIcon = styled.div`

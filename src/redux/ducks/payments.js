@@ -120,7 +120,6 @@ export const openedPaymentsSelector = createSelector(
   (state) => state.payments.items,
   (_, purchases) => purchases,
   (state, purchases) => {
-    console.log("openedPaymentsSelector");
     let items = [];
     purchases.forEach((purchase) => {
       const payments = state.filter(
@@ -140,7 +139,6 @@ export const currentPaymentsSelector = () =>
     (state) => state.payments.items,
     (_, purchases) => purchases,
     (state, purchases) => {
-      console.log("currentPaymentsSelector");
       let items = [];
       purchases.forEach((purchase) => {
         const payments = state.filter(

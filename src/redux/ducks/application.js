@@ -1,6 +1,11 @@
+import { loadAdmin } from "./authorization";
+import { loadDebtors } from "./debtors";
+import { loadPurchases } from "./purchases";
+import { loadPayments } from "./payments";
+
 /** Types **/
-const paymentAdd_toggle = "paymentAdd/toggle";
-const purchaseAdd_toggle = "purchaseAdd/toggle";
+const PAYMENT_ADD_TOGGLE = "paymentAdd/toggle";
+const PURCHASE_ADD_TOGGLE = "purchaseAdd/toggle";
 
 /** State **/
 const initialState = {
@@ -11,12 +16,12 @@ const initialState = {
 /** Reducer **/
 export default function application(state = initialState, action) {
   switch (action.type) {
-    case paymentAdd_toggle:
+    case PAYMENT_ADD_TOGGLE:
       return {
         ...state,
         paymentAddShow: !state.paymentAddShow,
       };
-    case purchaseAdd_toggle:
+    case PURCHASE_ADD_TOGGLE:
       return {
         ...state,
         purchaseAddShow: !state.purchaseAddShow,
@@ -29,10 +34,18 @@ export default function application(state = initialState, action) {
 }
 
 /** Actions **/
+export function loadApplication() {
+  return (dispatch) => {
+    dispatch(loadAdmin());
+    dispatch(loadDebtors());
+    dispatch(loadPurchases());
+    dispatch(loadPayments());
+  };
+}
 
 export const paymentAddToggled = () => {
-  return { type: paymentAdd_toggle };
+  return { type: PAYMENT_ADD_TOGGLE };
 };
 export const purchaseAddToggled = () => {
-  return { type: purchaseAdd_toggle };
+  return { type: PURCHASE_ADD_TOGGLE };
 };

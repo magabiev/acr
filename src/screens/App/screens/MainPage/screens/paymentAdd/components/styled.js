@@ -25,20 +25,20 @@ export const PaymentMethodForm = styled.input`
   }
 `;
 export const PayMethodList = styled.div`
+  width: 277px;
   background-color: #fff;
   position: absolute;
-  font-size: 16px;
+  font-size: 18px;
   border: 1px solid #d0d0d0;
   border-radius: 0 0 10px 10px;
-  top: 40px;
-  right: 15px;
+  top: 55px;
   overflow: hidden;
   transform-origin: top;
   transition: 0.2s;
-  transform: scaleY(${(props) => (props.show && 1) || 0});
+  transform: scaleY(${(props) => (props.show ? 1 : 0)});
   > div {
     cursor: pointer;
-    padding: 5px;
+    padding: 10px 20px;
     &:hover {
       background-color: whitesmoke;
     }

@@ -1,11 +1,11 @@
 import React from "react";
 import { DebtNameItem } from "./styled";
 
-function DebtName({ fullName }) {
+function DebtName({ fullName, isDelayPayment }) {
   return (
-    <DebtNameItem>
+    <DebtNameItem check={!isDelayPayment}>
       {fullName?.lastName} {fullName?.firstName} {fullName?.surName}
-      <i className="material-icons">check</i>
+      <i className="material-icons">{isDelayPayment ? "warning" : "check"}</i>
     </DebtNameItem>
   );
 }
