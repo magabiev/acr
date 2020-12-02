@@ -17,4 +17,3 @@
  - styled-components
  - react-router-dom, dayjs, Css Transition
  - Git
-## Логин и пароль для авторизации "admin"
