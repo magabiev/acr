@@ -23,10 +23,11 @@ function PaymentMethod() {
 
   return (
     <PayMethodParent>
+      {console.log(value)}
       <PaymentMethodForm
         placeholder="Способ оплаты"
         disabled
-        value={value?.name}
+        value={currentPaymentMethod ? value?.name : ""}
       />
       <i onClick={openPayMethodToggle} className="material-icons">
         keyboard_arrow_down

@@ -1,5 +1,3 @@
-[DEMO](https://evening-castle-26471.herokuapp.com/)
-
 # Система контроля задолженности
 
 ### Основной функционал приложения: 
@@ -12,6 +10,7 @@
  ### Что я использовал: 
  - redux / redux-thunk;
  - reselect
+ - PropTypes
  - Json Server, асинхронные запросы на сервер
  - styled-components
  - react-router-dom, dayjs, Css Transition

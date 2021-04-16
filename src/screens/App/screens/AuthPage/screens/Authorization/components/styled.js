@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 export const AuthBlock = styled.div`
+  position: relative;
   align-items: center;
   display: flex;
   flex-direction: column;

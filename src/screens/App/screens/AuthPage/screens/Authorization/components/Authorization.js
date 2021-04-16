@@ -1,6 +1,10 @@
 import React, { useCallback, useState } from "react";
 import { AuthBlock, AuthHeader, WrongData } from "./styled";
-import { Button, Spinner } from "../../../../../../shared/components/styled";
+import {
+  Button,
+  LoginData,
+  Spinner,
+} from "../../../../../../shared/components/styled";
 import Password from "./Password";
 import Login from "./Login";
 import { authorized } from "../../../../../../../redux/ducks/authorization";
@@ -54,6 +58,7 @@ function Authorization() {
         {authorizing && <Spinner />}
         Авторизация
       </Button>
+      <LoginData>Данные для демо входа: admin, 12345</LoginData>
     </AuthBlock>
   );
 }

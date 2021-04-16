@@ -23,7 +23,7 @@ function DebtHeader({ isDelayPayment }) {
   );
 
   const handleClick = () => {
-    history.push("/mainPage/debtors");
+    history.push("/mainPage");
   };
 
   const addHeaderPadding = useCallback(() => {

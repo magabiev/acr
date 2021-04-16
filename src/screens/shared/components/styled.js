@@ -200,3 +200,9 @@ export const Dot = styled.div`
   animation: ${BounceAnimation} 0.5s linear infinite;
   animation-delay: ${(props) => props.delay};
 `;
+export const LoginData = styled.div`
+  position: absolute;
+  color: #d0d0d0;
+  bottom: 10px;
+  font-size: 14px;
+`;

@@ -28,7 +28,7 @@ function MainPage() {
       <Header />
       <ContentSection>
         <Filters />
-        <Route path="/mainPage/debtors" component={DebtorsList} />
+        <Route exact path="/mainPage" component={DebtorsList} />
         <Route path="/mainPage/debtInfo/:id" component={DebtInfo} />
         <ScrollUp />
       </ContentSection>

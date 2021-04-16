@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { CheckBox, FilterItem } from "./styled";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -10,16 +10,19 @@ import {
 function AllDelaysFilter() {
   const dispatch = useDispatch();
   const allDelayFilter = useSelector((state) => state.debtors.allDelayFilter);
+  const [click, setClick] = useState(false);
   const handleAllDelay = () => {
     dispatch(allDelaysFilterToggled());
-    dispatch(loadDebtors());
+    setClick(true);
   };
 
   useEffect(() => {
     if (allDelayFilter) {
       dispatch(lastPaymentMonthAgoLoad());
+    } else if (!allDelayFilter && click) {
+      dispatch(loadDebtors());
     }
-  }, [allDelayFilter, dispatch]);
+  }, [allDelayFilter, click, dispatch]);
 
   return (
     <FilterItem>

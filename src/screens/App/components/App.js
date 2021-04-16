@@ -10,6 +10,7 @@ import locale_ru from "dayjs/locale/ru";
 import AuthPage from "../screens/AuthPage";
 import { useSelector } from "react-redux";
 import MainPage from "../screens/MainPage";
+import { GitHubLink } from "../../shared";
 
 function App() {
   /**
@@ -22,16 +23,15 @@ function App() {
   dayjs.locale("ru");
 
   const token = useSelector((state) => state.authorization.token);
-  /**
-   * todo авторизация и роутинг
-   */
+
   return (
     <BrowserRouter>
       <Container>
+        <GitHubLink />
         {token ? (
           <>
             <Route path="/mainPage" component={MainPage} />
-            <Redirect to="/mainPage/debtors" />
+            <Redirect to="/mainPage" />
           </>
         ) : (
           <>
