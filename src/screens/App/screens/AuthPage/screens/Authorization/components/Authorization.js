@@ -58,7 +58,7 @@ function Authorization() {
         {authorizing && <Spinner />}
         Авторизация
       </Button>
-      <LoginData>Данные для демо входа: admin, 12345</LoginData>
+      <LoginData>Данные для демо входа: admin, admin</LoginData>
     </AuthBlock>
   );
 }

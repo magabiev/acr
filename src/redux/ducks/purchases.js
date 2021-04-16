@@ -124,7 +124,6 @@ export const currentPurchasesSelector = () =>
 export const openedPurchaseFilterByDateSelector = createSelector(
   (_, array) => array,
   (array) => {
-    console.log("by date");
     const dateDiffs = array.map((item) => {
       const dateDiff = dayjs().diff(item.date, "day");
       return { id: item.id, dateDiff };

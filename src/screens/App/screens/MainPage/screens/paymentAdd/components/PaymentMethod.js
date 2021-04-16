@@ -23,7 +23,6 @@ function PaymentMethod() {
 
   return (
     <PayMethodParent>
-      {console.log(value)}
       <PaymentMethodForm
         placeholder="Способ оплаты"
         disabled

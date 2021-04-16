@@ -1,20 +1,13 @@
-import React, { useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import React from "react";
 import { HeaderOtherOption } from "./styled";
-import { useSelector } from "react-redux";
+import { logout } from "../../../../../../../redux/ducks/authorization";
+import { useDispatch } from "react-redux";
 
 function Logout() {
-  const history = useHistory();
+  const dispatch = useDispatch();
   const handleClick = () => {
-    localStorage.removeItem("token");
+    dispatch(logout());
   };
-
-  const token = useSelector((state) => state.authorization.token);
-  useEffect(() => {
-    if (!token) {
-      history.push("/authPage");
-    }
-  }, [history, token]);
 
   return <HeaderOtherOption onClick={handleClick}>Выход</HeaderOtherOption>;
 }

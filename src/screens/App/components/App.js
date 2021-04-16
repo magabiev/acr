@@ -1,7 +1,7 @@
 import React from "react";
 import { Container, GlobalStyles } from "./styled";
 // noinspection ES6CheckImport
-import { BrowserRouter, Route, Redirect } from "react-router-dom";
+import { BrowserRouter, Route, Redirect, Switch } from "react-router-dom";
 import dayjs from "dayjs";
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 import duration from "dayjs/plugin/duration";
@@ -29,15 +29,15 @@ function App() {
       <Container>
         <GitHubLink />
         {token ? (
-          <>
+          <Switch>
             <Route path="/mainPage" component={MainPage} />
             <Redirect to="/mainPage" />
-          </>
+          </Switch>
         ) : (
-          <>
-            <Route path="/authPage" component={AuthPage} />
+          <Switch>
+            <Route path="/authPage" component={AuthPage} push={true} />
             <Redirect to="/authPage" />
-          </>
+          </Switch>
         )}
         <GlobalStyles />
       </Container>

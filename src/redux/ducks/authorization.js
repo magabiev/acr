@@ -6,10 +6,11 @@ const LOGIN_SUCCEED = "login/succeed";
 const LOGIN_ERROR = "login/error";
 const LOAD_ADMIN_STARTED = "admin/load/started";
 const LOAD_ADMIN_SUCCEED = "admin/load/succeed";
+const LOGOUT = "admin/logout";
 
 /** State **/
 const initialState = {
-  token: localStorage.getItem("token"),
+  token: localStorage.getItem("token") || "",
   admin: {},
   adminLoading: false,
   authorizing: false,
@@ -48,6 +49,11 @@ export default function authorization(state = initialState, action) {
         admin: action.payload,
         adminLoading: false,
       };
+    case LOGOUT:
+      return {
+        ...state,
+        token: "",
+      };
     default:
       return {
         ...state,
@@ -81,5 +87,12 @@ export function loadAdmin() {
     get(`adminInfo/token=${token}`).then((json) =>
       dispatch({ type: LOAD_ADMIN_SUCCEED, payload: json })
     );
+  };
+}
+
+export function logout() {
+  localStorage.removeItem("token");
+  return (dispatch) => {
+    dispatch({ type: LOGOUT });
   };
 }
