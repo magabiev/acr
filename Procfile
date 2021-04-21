@@ -1,1 +1,0 @@
-web: https://acr-server.herokuapp.com
