@@ -1,5 +1,5 @@
 function fetchRequest(path, method, params) {
-  const ip = "https://acr-server.herokuapp.com/";
+  const ip = "https://acr-server.vercel.app/";
   return fetch(ip + path, {
     method,
     headers: {
